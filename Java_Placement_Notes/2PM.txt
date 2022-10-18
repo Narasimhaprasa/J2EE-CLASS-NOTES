@@ -1,0 +1,2634 @@
+95477969937
+112233
+
+
+
+Java language has provided a keyword called "extends" through which we can acheive "Reusability"
+
+The slogan of Java is WORA (Write Once Run Anywhere)
+
+Difference between Strongly(Statically) vs Loosly(Dynamically):-
+-----------------------------------------------
+The languages in which data type is compulsory before initialization of a variable is called Strongly or Statically typed langauge
+Ex:- C,C++, JAVA
+Where as on the other hand the languages where data type is not compulsory and it is optional then it is called Loosly or Dynamically Typed language.
+Ex:- Python, JavaScript, VisualBasic
+
+
+
+
+Why java becomes so popular:-
+----------------------------------
+C and C++ are platform dependent language so the .exe file generated in one machine will not be executed on another machine if the configuration of the machine is changed.
+
+That is the reason c and c++ languages are not suitable for web development.
+
+
+The data which are tightly coupled or strongly associated with the function are called encasulation where as the function which are not associated with the data and it is written inside the class are the function of class.
+
+Inheritance :- 
+---------------
+Deriving a new class  from existing class in such a way that the new class will acquire all the features and properties (except private) is called inheritance.
+
+Polymorphism :- 
+-----------------
+Poly means "many" and morphism means "forms", It is a Greek word whose meaning is Same object having different behavior. 
+
+Description of main():-
+-------------------------
+Any program execution always starts from main() as well as execution of the program always ends with main() only
+
+public :-
+----------
+Our main method must be declared as public because JVM is responsible to execute our java program via main method, if the main method is not declared as public, JVM can't access our main method so the program will not be executed.
+
+In order to call a method/function in Object oriented programmimg, First of all we need to create an object.
+
+static :-
+-------
+In Java our main method is declared as static, so in order to call the main method we need not to create an Object.
+A static method can be directly call with the help of class name.
+
+void :-
+-------
+It is a data type. we apply void before the name of the method so the method will not return any value. void means empty or no return type.
+
+Command Line Argument :-
+-------------------------------
+Whenever we pass an argument to the main method then it is called Command Line Argument.
+
+In the statement,   String [] args
+
+String :- It is a predefined class available in java.lang package
+[] args :- It is an array variable of type String.
+
+System.out.println() :-
+--------------------------
+It is an output statement in java through which we can print the variable value, String constant and any general statement.
+
+In this statement System is a predefined class available in java.lang package, out is a reference variable and println() is predefined method of PrintStream class.
+
+Command Line Argument :-
+------------------------------
+Whenever we pass any argument to the main method then it is called Command line argument.
+
+By using command line argument we can pass some value at runtime.
+
+The benefit of command line argument is single time compilation and number of time execution.
+
+How to convert a String into Integer :-
+------------------------------------------
+If we want to convert a String into Integer then java software people has provided a predefined class called Integer available in java.lang package
+This Integer class contains a predefined method called parseInt(), through which we can convert a String value to an integer value.
+
+The return type of parseInt() is int as well as it is a static method so we can directly call this method with the help of class name.
+
+Number System :-
+---------------------
+It is a technique to describe the quantity.
+Eg:-  100
+Octal Literal :- 
+----------------
+Any integral literal prefix with '0' is called octal Literal. As we know the range of octal number is 0 to 7 so we can accept any digits in between 0 to 7 only.
+
+Eg:- int x = 017; valid
+       int y = 018; Invalid
+
+Hexadecimal Literal :-
+------------------------
+Any integral literal prefix with 0X(zero capital X) or 0x (zero small x) is called Hexadecimal Literal. As we know the range of hexadecimal literal is 0 to F so we can any digits in between 0 to F only.
+
+Eg:  int x = 0Xadd; //valid
+       int y = 0Xage; //Invalid
+
+Binary Literal :-
+-----------------
+It came from java 1.7 onwards. Any integral literal prefix with 0B(zero capital B) or 0b(zero small b) is called Binary Literal. As we know the range of binary literal from 0 to 1 so we can accept only two digits i.e 0 and 1
+
+Eg:    int x = 0B111; valid
+         int y = 0b112; invalid
+
+
+
+boolean Literal :-
+------------------
+1) boolean literal contains only two values i.e true or false.
+
+2) It accepts only one bit of memory.
+
+3) Unlike C and C++ we can't assign intger value to boolean
+   
+   Ex:- boolean b = 0; XXX(Invalid)
+        boolean c = 1; XXX(Invalid)
+
+4) We can't assign the following String type to boolean data type
+    
+        boolean d = "true";  XXX(Invalid)
+        boolean e = "false"; XXX(Invalid)
+   
+  
+
+ char Literal :-
+ --------------
+There are various ways to represent char literal 
+
+1) Single character enclosed with single quotes.
+    
+    eg:-  char ch = 'A';
+
+2) We can assign integral literal to char literal to represent UNICODE
+    values. The range of UNICODE value is 0-65535.
+    C and C++ are using ASCII value, the Range of ASCII is 0-255 but to represent all characters, java uses UNICODE values so we can assign any value in between 0-65535.
+
+     eg:- char ch = 65535;
+
+ 
+3) We can represent UNICODE Values in 4 digit hexadecimal number. The format is 
+                        '\uXXXX'   
+
+	minimum value :-  '\u0001'
+	maximum value:-  '\uffff'      (Hexadecinal so range is 0-f)
+
+
+4) By using char literal we can represent escape sequences.
+
+String Literal in java:-
+------------------------
+We can create a String in java using various ways :-
+
+1) By using character array
+   Ex:-  char ch[] = {'H','E','L','L','O'}; 
+
+2) By using String Literal
+   String str = "Hello";
+
+3) By using new keyword   
+   String x = new String("Hyderabad");
+   
+
+Whenever we create String object using String literal then the String object will be created in a special memory called String constant pool as a part of Heap memory.
+Once the String object is created we can't modify and delete the String object.
+
+Now Whenever we create a String object using new keyword then the String object will be created inside the heap memory but not inside the String constant pool. The String object created at heap memory can be deleted but can't be modified.
+
+Facts about String memory :-
+--------------------------------
+Whenever we create a String object, first of all JVM will verify that the String object is already available in the String constant pool or not.
+If it is already available then JVM will not create any new String Object, It will simply assign the new reference variable to the old String object.
+
+
+Why Strings are immutable :-
+--------------------------------
+Strings are immutable (unchanged) why because as we know String object can be reffered by multiple reference variables and if any of the reference variable modifies the value of String  then It would be very difficult for the other reference variable to get the same value what they have defined earlier.
+That is the reason Strings are immutable in java.
+
+
+public char charAt(int index):-
+--------------------------------
+It is a predefined method available in String class. The main purpose of this method to extract or fetch a single character from the given String. The return type of this method is char, why because it returns a single character.
+public String concat(String x):-
+---------------------------------
+It is  a predefined method of String class. The main purpose of this method is to join or append or concatenate  two Strings. The return type of this method is String.
+We can also use '+' operator to join two Strings.
+
+public boolean equals(String x) :-
+---------------------------------- 
+It is  a predefined method of String class. It is used to compare two String and verify whether both the Strings are equal or not, if both the Strings are equal then It will return true otherwise It will return false. It is a case sensitive method.
+
+public boolean equalsIgnoreCase(String x) :-
+============================
+It is  a predefined method of String class. It is used to compare two Strings by ignoring their case that means 'a' and 'A' both are same. This method will also return boolean value.
+
+public int length() :- 
+-----------------------
+It is  a predefined method of String class. It is used to find out the length of the given String. The return type of this method is int. The counting length of a String always starts from 1. 
+
+
+public String replace(char old, char new)
+public String replace(String old, String new)
+----------------------------------------------
+It is a predefined method in String class. By using replace method we can replace a particular character or a token of String from the existing String.
+The return type of this methos is String.
+
+
+public int compareTo(String s) :-
+---------------------------------
+It is a predefined method in String class. If we want to compare two Strings character by character based on the UNICODE values then it is called lexicographical comparison.
+
+comapareTo() of String class uses lexicographical comparison to compare two String. Based on the comparison It will return 
+0 or  +ve or -ve
+
+
+public String substring(int startIndex) :-
+public String substring(int startIndex, int endIndex) :-
+-----------------------------------------------------------
+This method is used to fetch the part of the main String so called as substring(). Both the parameters are inclusive but startIndex will start from 0 whereas endIndex will start from 1.
+The return type of this method is String. If both the parameters are same , It will not print anything and if first parameter is greater than 2nd parameter then It will generate an exception i.e StringIndexOutOfBoundsException
+We can't pass negative parameter in substring method.
+
+
+StringBuffer :- 
+---------------
+It is a prdefined class available in java.lang package from jdk 1.0 version. It is a mutable class that means we can easily modify the object of StringBuffer class.
+
+All the methods defined inside the StringBuffer class is synchronized methods so if multiple threads want to access the method of StringBuffer class then it is not possible.
+
+Only one thread can enter inside the method of StringBuffer class, hence performance wise it is slow.
+
+
+Drawback of if condition :-
+----------------------------
+while working with if condition we need to check the condition again and again so there will be extra burdon on CPU. to avoid this problem we introduced switch-case statement.
+
+In switch case whatever the value we will pass, with that value the appropriate case will be executed if the case is not available then default statement will be executed.
+
+Note :- break keyword is used to break the switch statement.
+
+While working with switch case we can't pass long,float and double value.
+
+
+Loop in Java :- 
+---------------
+A loop is nothing but repeatation of statement that means by using loop we can repeat statement ot statements 'n' number of times.
+
+Java supports 4 kinds of loop
+
+1) do-while loop
+
+2) while loop
+
+3) for loop
+
+4) for-each loop 
+
+Working with class and object :-
+------------------------------------
+Whenever we write a class in java and if we have not defined any kind of constructor to the class then automatically the compiler will add one default constructor to the class.
+
+
+Why compiler adds default constructor to the class? :-
+---------------------------------------------------------
+Every java class has a constructor either written by user explicitly, or added by the compiler implicitly.
+
+The compiler adds default constrctor to our class otherwise object creation is not possible in java.
+
+The main purpose of constructor (added by the compiler) to provide default values for variables declared inside a class.
+Ex:-
+int -> 0
+float -> 0.0
+String-> null  and so on
+
+How to take input from the user :-
+---------------------------------------
+There is a predefined class available in java.util package called Scanner, This class is used to take the input from the user.
+
+The following command describes how to create an object for Scanner class
+
+Scanner sc = new Scanner(System.in);
+
+
+static variables of System class :-
+-----------------------------------
+System is a predefined class available in java.lang package.It contains 3 static variables
+
+1) System.out :- It is used to print normal message on the screen
+
+2) System.err :- It is used to print the error messages on the scrren
+
+3) System.in :- It is used to accept input from the keyboard
+
+Methods of Scanner class :-
+-------------------------------
+next() :- used to read a single word
+
+nextLine() :- Used to read multiple word or complete line
+
+nextInt() :- Used to read int value
+
+nextFloat() :- Used to read float value
+
+nextDouble() :- Used to read double value
+
+nextLong() :- Used to read long value
+
+nextBoolean() :- Used to read boolean value
+
+
+
+Operators :-
+--------------
+1) Binary operators :- It is also known as Arithmetic Operator. It works with two oprands that is the reason it is called Binary Operators.
+Eg:
+
++ , - , *, / ,  %
+
+Division Operator :-
+----------------------
+While working with integeral literal when we divide a number by zero i.e (10/0 = Infinity and 0/0=Undefined) then there is no way to reprsent this Infinity and Undefined so in both the cases we will get java.lang.ArithmeticException and the execution sequence of our program will be stopped.
+
+On the other hand if we divide a number by 0.0 i.e floating point literal then java.lang.Float and java.lang.Double, both classes have been defined POSITIVE_INFINITY , NEGATIVE_INFINITY and NaN (Not a number) constants to represent positive infinity, negative infinity and undefined respectively.
+
+
+Unary Operator :- 
+---------------------
+It works on single operand. we have 3 kinds of unary operator.
+
+1) Unary minus(-)    
+
+2) Increment operator (++)
+
+3) Decrement Operator (--)
+
+
+Local varibale :-
+-----------------
+The variables which are declared inside a method either as a method body or as a method parameter are called Local / Stack / Temporary / Automatic variable.
+
+As per as its scope is concerned It can be accessible within the same method only.
+
+A local variable must be initialized as well as we can't use access modifier (except final) on local variable.
+
+
+Assignment Operator :-
+--------------------------
+It is used to assign right hand side value to left hand side. Both the values must be compatible with each other.
+
+Relational Operator :-
+-------------------------
+These operators are used to compare the values. We have total 6 relational operator
+
+1)  >   (Greater than)
+2)  >= (Greater than or equal)
+3)  <   (less than)
+4)  <= (less than or equal)
+5)  == (double equal to)
+6)  !=  (Not equal to)
+
+Note :- These operators always return boolean type.
+
+
+
+If condition :- 
+----------------
+It is used to check condition and based on the condition, it will execute the statement. The return type of if condition is always boolean value.
+
+if(condition)
+{
+   statement1;
+}
+else
+{
+   statement2;
+}
+
+
+Nested if :-
+-----------
+if we place an if condition inside another if condition then it is called Nested if condition.
+
+if(condition) //outer if 
+{
+   if(condition) //Nested if condition (Inner if)
+   {
+   }
+   else
+   {
+   }
+}
+else
+{
+}
+
+Logical Operator :-
+---------------------
+It is used to join or compound two or more statements in a single condition.
+we have three kind of logical opertors
+
+1) && AND Operator
+
+2) || OR Operator
+
+3) !  Not Operator
+
+&&  -> all the conditions must be true
+
+||  -> at least one must be true
+
+!  -> It is an inverter so it makes true as a false and false as a true
+
+
+Boolean Operators :-
+------------------------
+These operators will work with boolean values.
+
+& Boolean AND operator
+
+| Boolean OR operator
+
+! Boolean Not operator
+
+& :- All the conditions must be true
+
+| :- At least one condition must be true
+
+! :- It is an inverter
+
+Bitwise Operator :-
+----------------------
+These operators are used to work with bit by bit operation. we have 3 kinds of bitwise operator 
+
+&  Bitwise AND Operator
+
+|   Bitwise OR Operator
+
+^  Bitwise X-OR Operator
+
+&  -> all conditions must be true
+
+|   -> at least one condition must be true
+
+^  -> It will return true if both the arguments are alternate to each other. 
+
+29-12-2021
+-------------
+Bitwise Complement Operator :-
+-------------------------------------
+This operator does not work with booelan. It can work with only integer. It is represented by ~ 
+
+Ternary Operator or Conditional operator (?:)
+---------------------------------------------------
+This operator is mainly used to reduce the size of if condition. It is called Ternary opertaor why because It uses 3 operators.
+
+
+Member Access Operator(.) :-
+-------------------------------
+This operator is represented by . (dot). It is used to access the member of the class like variables and methods.
+
+
+new Operator :-
+------------------
+This operator is used to create the object. With the help of object referenec we can invoke the method or variable of the class.
+
+If we have an instance variable or instance method (the non-static variable and method) then in order to call the method first of all we need to create an object.
+
+instanceof operator :-
+------------------------
+This operator is used to verify whether a reference variable is the instance of the particular object or not. If it is the instance of particular object then it will return true otherwise it will return false.
+
+default values of the instance variable with class and object :-
+----------------------------------------------------------------
+Whenever we write a class in java and if we have not written any kind of constructor then one defualt constructor would be added by the compiler.
+
+Now the main purpose of this constructor to initialize the instance variable of the class with some meaningful value called as default value.
+int -> 0
+float -> 0.0f
+double -> 0.0d
+char  -> '\u0000'
+String -> null
+boolean -> false
+
+Why we pass parameter to a function ?
+--------------------------------------------
+We pass parameter to a function for getting more information regarding the function.
+
+As we know compiler automatically add one default constructor to the class, the purpose of this default constructor to provide default values like for int -> 0, for float 0.0 and so on.
+
+But these default values are not useful for the user hence we need to take a seperate method (input()) to re-initialize the variable value as shown in the above program.
+
+Instance variable :-
+-----------------------
+The non-static variables which are declared inside the class but outside of the method are called instance variable.
+
+As per as its scope is concerned the instance variable can be accessible from anywhere but within the same class only.
+
+The life of an instance variable starts at the time of creating the object that is the reason all the instance variables are initialized with default values at the time of creating the object.
+
+Local Variable :-
+-------------------
+The variables which are declared inside the method either as method body or as a method parameter are called local/stack/temporary/automatic variable.
+
+As per as its scope is concerned the local variables are accessible within the same method only.
+
+A local variable must be initialized as well as we can't apply any kind of access modifier like private, protected and public to the local variable.
+
+Object Oriented programming :-
+-----------------------------------
+If we put everything in a single class then it is not an object oriented programming. In oder to acheive the object oriented programming classes must be loosly coupled with each other. 
+
+In java we can develop two kinds of classes
+1) BLC(Business Logic class)
+2) ELC(Executable Logic class)
+
+this keyword :-
+------------------
+Whenever insatance variable and local variable name both are same then at the time of variable initialization our runtime environment gets confused that which one is local variable and which one is instance variable, To avoid this problem we should use this keyword.
+
+this keyword always refers to the current object and we know instance variables are also the part of current object so JVM can easily understand about instance variables because they are associated with 'this' keyword.
+
+What is the benefit of writing constructor in our program :-
+------------------------------------------------------------------
+If we write constructor in our program then compiler will not add any kind of constructor, we initialize our all instance veriables inside the constructor so variable initialization and variable re-initialization both are done in the same place as shown in the diagram below.
+
+Constructor :-
+---------------
+It is a special method whose name is same as class name or in words we can say if the class name and method name both are same then it is called constructor.
+
+The main purpose of constructor to initialize the object that initialize the instance variable of the class.
+
+Every java class has a constructor either implicitly added by the compiler or explicitly written by the user.
+
+A default constructor will be added by the compiler in a class to provide default values for the instance variables in case user has not written any kind of constructor.
+
+Constructor never containing any return type including void also.
+
+A constructor is automatically called and executed at the time of creating the object.
+
+A constructor is called only once per object that means when we craete the object constructor will be called and executed, if we create the object again then again the constructor will be called and executed.
+
+Java supports 4 kinds of constructor
+----------------------------------------
+1) default constructor
+
+2) parameterized constructor
+
+3) copy constructor
+
+4) private constructor
+
+
+default constructor :-
+-------------------------
+If no argument is passed to the constructor then it is called default constructor.
+
+Eg:-
+
+class Test
+{
+     Test() //default constructor
+      {
+      }
+}
+
+parameterized constructor :-
+-------------------------------
+If one or more argument is passed to the constructor then it is called as parameterized constructor. 
+
+Using parameterized constructor we can take value from user.
+
+class Test
+{
+     int a, b;
+
+     Test(int a, int b)   //Parameterized constructor
+     {
+        this.a = a;
+	this.b = b;
+     }
+}
+
+
+Note :- 
+---------
+Whenever we create an object in java then a seperate copy of all the instance variables will be created with each object reference.
+Copy constructor :-
+----------------------
+Whenever we pass an object reference to the constructor then it is called copy constructor. 
+The main purpose of copy constructor to copy the content of one object to another object.
+
+Eg:-
+
+class Test
+{
+    int a,b;
+
+    Test(int a, int b)   //parameterized constructor
+     {
+     }
+
+     Test(Test t)  //copy constructor    
+     {
+     }
+}
+
+private constructor :-
+-----------------------
+It is possible to declare a constructor as private. we should declare a constructor as private if we want to define all the methods as a static method so, It will restrict a user to create the object for the class but we can invoke the static methods with the help of class name.
+
+instance block :
+------------------
+It is also known as instance initializer. The main purpose of instance blcok to initialize the instance variable of the class.
+
+An instance block will be executed automatically whenever we create an object in java.
+
+An instance block will be executed before the constructor.
+
+If we have more than one instance block in a class then it would be executed from top to bottom order.
+
+Inheritance :-
+----------------
+Deriving a new class from existing class in such a way that the new class will acquire all the features and properties of existing class is called Inheritance.
+
+It is one of the most imporatnt feature of oops which provides "CODE REUSABILITY".
+
+In java we provide inheritance using a keyword called 'extends'.
+
+Using inheritance mechanism the relationship between the classes is parent and child, According to C++ the parent class is called Base class and the Child class is called Derived class whereas According to Java the parent class is called as super class and the child class is called as sub class.
+
+Using inheritance all the features of super class is bydefault available to the sub class so the sub class need not to start the process from begning onwards.
+
+Inheritance follows top to bottom approach, In this hierarchy if we move towards upward direction more generalized properties will occur and on the other hand if we move towards downward direction more specialized properties will occur.
+
+Inheritace provides two kinds of relationship
+IS-A Relation :- It occurs between the classes.
+HAS-A Relation :- It occurs between the class and its property.
+
+
+Why java does not support multiple inheritance :-
+------------------------------------------------------
+Whenever a sub class wants to inherit the properties of two or more super classes then there might be chance of getting memory duplication. This situation is known as Diamond Problem in Java.
+
+That is reason Java does not support multiple inheritance. But we can acheive multiple inheritace in java using interface concept.
+
+super keyword :-
+-----------------
+super keyword can be used  3 ways in java
+
+1) To call the super class variable
+
+2) To call the super class method
+
+3) To call the super class constructor
+
+To call the super class variable :-
+-------------------------------------
+Whenever super class variable name and sub class variable name both are same and if we create an object of sub class then it will give more priority to its own class variable if we want to call super class variable then we should use super keyword.
+
+super keyword always refers to its immediate super class as well as we should only use super keyword whenever the member of super class name and the member of sub class both are same.
+
+
+To call the super class method :-
+-------------------------------------
+Whenever the super class method name and sub class method name both are same and if we create an object of sub class then it will give more priority to its own class method.
+        If we want to invoke the super class method then we should use super 
+keyword.
+
+To call the super class constructor:-
+----------------------------------------
+Whenever we write a class in java and if we have not written any kind of constructor then automatically the compiler will add one default constructor to the class.
+The first line of any constructor is reserved either for super() or this(). If a developer does not specify either super() or this() to the first line of constructor then compiler will automatically add super() to the first line of constructor.
+
+We have following four conclusions :
+
+1) super() :- To call the default constructor of super class
+
+2) super(9) :- To call the parameterized constructor of super class.
+
+3) this() :- To call the default constructor of its own class.
+
+4) this(12) :- To call the parameterized constructor of its own class.
+
+Type casting in java :-
+------------------------
+Type casting is nothing but converting one data type to another data type. Type casting is divided into two types.
+
+1) Implicit Type casting (Automatic type casting)
+2) Explicit Type casting (Mannual type casting)
+
+Implicit Type casting :-
+-----------------------
+Whenever we want to assign a smaller data type value to the bigger data type then It is automatically done by the compiler and It is known as Implicit Type Casting.
+
+byte -> short -> char -> int -> long -> float -> double
+
+
+Explicit Type casting :-
+-----------------------
+Whenever we want to assign a bigger data type value to the smaller data type then by default the compiler will not allow this, if at all we want to assign then we need to mannually convert the bigger data type into smaller data type.
+
+short s = 15;
+byte b = s;  -> by default it is not possible
+byte b = (byte)s;  //short is converted to byte
+
+While working with explicit type casting there might be a chance of loss of data.
+
+Access modifiers in java :- 
+------------------------------
+An Access Modifiers describes how the member of the class (data + method) and the class it self would be accessible that means the scope of accessibility.
+
+Java provides 4 access modifiers 
+
+1) private (Within the same class only)
+  ------------------------------------------
+  It is most restrictive access modifier in java, The members which are declared as private can be accessible within the same class only.
+  In java we can't declare a class as a private.
+
+
+2) default (Accessible within the same package(folder)):
+    ------------------------------------------------------------
+    default is an access modifier which is less restrictive than private, It is such kind of access modifier whose physical existance is not available that means If a user does not specify any kind of access modifier then by default It would be default.
+    As per as its scope is concerned default memebers are accessible within the same package i.e same folder only.
+
+3) protected (Accessible within the same class, within the package and from
+--------------------------------------------------------------------------------------
+another package as well but using inheritance)
+----------------------------------------------------
+It is an access modifier which is less restrictive than default, The members which are declared as protected can be accessible within the same class, within the same package(folder) and from the another package as well but using inheritance.
+
+4) public (No restriction , members are accessible from everywhere)
+-----------------------------------------------------------------------------
+public access  modifier does not contain any kind of restriction that means the members which are declared as public can be accessible from everywhere.
+
+Note : - In java generally we declare data member as private, member function and classes as public.
+Polymorphism :-
+----------------
+Poly means "many" and morphism means "form". It is a Greek word whose meaning is "SAME OBJECT HAVING DIFFERENT BEHAVIOR"
+
+In our real life a person or a human being can perform so many task similarly in our programming languages a method or a constructor can perform so many task.
+
+Polymorphism can be divided into two categories :
+
+1) Compile time Polymorphism OR Static Polymorphism
+
+2) Run time Polymorphism OR Dynamic Polymorphism
+
+Compile time polymorphism :-
+----------------------------------
+The polymorphism which exist at the time of compilation is called static polymorphism. In static polymorphism compiler has a very good idea that which method is invoked depending upon the type of parameter we have passed in the method.
+
+This type of preplan polymorphism is called static or compile time polymorphism.
+
+Ex:-  Method Overloading
+
+Runtime polymorphism :-
+----------------------------
+The polymorphism which exist at runtime is called dynamic polymorphism. In dynamic polymorphism, compiler does not have any idea that which method is invoked, at runtime only the JVM will decide that which method is invoked depending upon the class type.
+
+This type of polymorphism is called dynamic or Runtime polymorphism Or dynamic method dispatch.
+
+Eg:- Method Overriding
+
+Method Overloading :-
+-------------------------
+Writing two or more methods in the same class in such a way that the method name must be same and argument must be different is called method overloading.
+
+While working with method overloading we can change the return type of the method.
+
+var-args :-
+----------
+It stands for variable arguments. It is actually an array variable which can hold 0 parameter to n number of parameter of same type.
+
+It is represented by ... (exactly 3 dots).By using this var-args conecpt, now we need to define only one method body for accepting different kinds of parameter.
+
+
+var-args must be only one argument as well as last argument in the method otherwise there will be a compilation error.
+
+
+Method Overriding :-
+---------------------
+Writing two or more methods in super and sub class in such a way that method signature (Method name along with parameter) must be same is called Method Overriding.
+
+Method Overriding is only possible with inheritance, if there is no inheritance there is no method overriding.
+
+Generally we can't change the return type of the method while overriding a method but from JDK 1.6 onwards we can change the return type of the method by using a concept called Co-variant.
+
+@Override Annotation :
+-------------------------
+It is a new Feature introduced in java from jdk 1.5 onwards. It is different from comment beacuse IT ensures the compiler as well as User that the method is an overriden method and It must be available in the super class.
+
+If we use @Override annotation and If we are not overriding the method from super class then compiler will generate an error.
+
+
+Role of access modifer while overridng a method :-
+-------------------------------------------------------
+Method Overriding is only possible with inheritance, if there is no inheritance there will not be method overriding so private accees modifer is allowed at overriding.
+
+While overriding a method the access modifier of sub class method must be greater or equal to the access modifer of super class method.
+
+The following statement described the access modifer from greater to less
+
+public > protected > default
+
+(public is greater than protected, protected is greater then default)
+
+
+Co-variant in Java :
+--------------------
+In general we can't change the return type of the method while overriding a method.
+
+From JDK 1.6 onwards Java software people has provided a new concept called Co-variant through which we can change the return type of the method.
+
+We can change the return type of the method using co-variant , co-variant describes the return type of the method must be in inheritance relationship.
+
+final keyword in java :-
+-----------------------
+To provide some sort of restrictions we use final keyword. It can be used 3 ways in java.
+
+1) To declare the class as a final
+
+2) To declare the method as a final
+
+3) To declare the variable as a final
+
+To declare a class as a final :-
+--------------------------------
+Whenever we declare a class as a final then inheritance is not possible for that class. To prevent inheritance we use final keyword to declare a class as final.
+
+We should use final keyword when the logic of the class is very important and we don't want to share with another user, in that situation we should declare a class as a final.
+
+final class means only class behavior is final it's variables and methods we can modify.
+
+To declare the method as a final :-
+-------------------------------------
+Whenever method implementation is very important and we don't want to change the method implementation in the later stage of development then we should declare a method as final.
+
+Once a method is declared as final we can't override that method in the child class.
+
+To declare the variable as a final :-
+---------------------------------------
+Whenver we declare a variable as final then we can't perform re-assignment for that variable.
+
+In java final variables are written by uppercase letter.
+
+
+Class Loader subsystem with JVM Architectute :-
+------------------------------------------------------
+The three main component of JVM 
+
+1) class loader sub system
+
+2) Runtime Data Areas
+
+3) Execution engine
+
+In order to load the required .class file, JVM makes a request to class loader sub system. The class loader sub system follows delegation hierarchy algorithm to load the required .class file from different area.
+
+To load the required .class file we have 3 different kinds of class loader
+
+1) Bootstrap class loader
+
+2) Extension/Platform class loader
+
+3) Application/System class loader
+
+Bootstrap class Loader :-
+----------------------------
+It is responsible to load the required .class file from java API that means all the predfined classes .class file will be loaded by Bootstrap class loader.
+It the super class of Extension class loader as well as It has the highest priority among all the class loader.
+
+Extension/Platform  class  Loader :-
+------------------------------
+It is responsible to load the required .class files from ext (extension) folder. Inside the extension folder we have  jar file(Java level zip file) given by some third party or user defined jar file.
+It is the super class of Application class loader as well as It has more priority than Application class loader.
+
+Application class Loader :-
+------------------------------
+It is responsible to load the required .class file from class path level i.e Environment variable. It has lowest priority as well as It is the sub class of Extension class loader.
+
+
+How Delegation Hierarchy algorithm works :-
+---------------------------------------------------
+Whenever JVM makes a request to class loader sub system to load the required .class file into JVM memory, first of all class loader sub system makes a request to Application class loader , Application class loader will delegate the request to the Extension class loader, Extension class loader will also delegate the request to Bootstrap class loader.
+Bootstrap class loader will load the .class file from lib folder(rt.jar) and then by pass the request to extension class loader, Extension class loader will load the .class file from ext folder(*.jar) and by pass the request to Application class loader, It will load the .class file from environment variable into JVM memory. 
+
+Note :- 
+If all the class loaders are unable to load the .class file into JVM memory then we will get a Runtime exception i.e java.lang.ClassNotFoundException
+
+Linking :-
+------------
+verify :-
+-------
+It ensures the correctness the .class files, If any suspicious activity is there in the .class file then It will stop the execution immediately by throwing an exception i.e java.lang.VerifyError.
+
+There is something called ByteCodeVerifier, responsible to verify the .class file i.e byte code. Due to this verify module JAVA is highly secure language.
+
+
+Prepare :-
+-----------
+It will allocate the memory for all the static data member, here all the static data member will get the default values so if we have static int x = 100;
+then for x we will get the default value i.e 0.
+
+Resolve :-
+-----------
+All the symbolic references will be converted to direct references.
+
+
+Initialization :-
+-----------------
+In Initialization, all the static data member will get their actual value as well as if any static block is available in the class then the static block will be exceuted here.
+
+static block :-
+---------------
+It is a very special block in java which will be executed at the time of loading the .class file into JVM memory by class loader subsystem.
+
+The main purpose of static block to initialize the static data member of the class.
+
+static block will be executed only once because class loading is possible only once in java.
+
+If we have multiple static blocks in a class then It will be executed according to order.
+
+What is the difference between java.lang.ClassNotFoundException and 
+-------------------------------------------------------------------------------
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+
+java.lang.ClassNotFoundException :-
+-----------------------------------------
+It occurs when we try to load the required .class file at runtime by using Class.forName() statement and if the required .class file is not available at runtime then we will get an exception i.e java.lang.ClassNotFoundException.
+
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+It occurs when the class was present at the time of compilation but at runtime the required .class file is not available(mannually deleted by user) then we will get an exception i.e java.lang.NoClassDefFoundError.
+
+What is the drawback of new keyword :-
+---------------------------------------------
+We know 'new' keyword is used to create the objcet but It demands the class name at the begning or at the time of compilation.
+
+new keyword is not suitable to create the object for the classes which are coming at runtime.
+
+In order to create the Object for the classes which are coming at runtime either from database or files, we should use newInstance() method available in class called Class.
+
+
+2) Runtime data areas :-
+----------------------------
+Method area :-
+---------------
+In this area all class level information is available. Actually the .class file is dumpped here hence we have all kinds of information related to class is available like name of the class, name of the immediate super class, method and variable name, static variable and so on.
+
+There is only one method area per JVM.
+
+Heap memory :-
+------------------
+It stores information regarding object and instance variables. All the objects are created as a part of HEAP memory so automatically all the instance variables are also the part of HEAP memory.
+
+The is only one HEAP area per JVM.
+
+Stack area :-
+--------------
+For every thread, JVM creates a seperate runtime stack. Each stack is created as a part of stack memory. All the local variables are also the part of stack memory.
+Each entry in the stack is called Stack Frame, Each stack frame containd three parts
+1) Local variable Array
+2) Frame Data
+3) Operand Stack
+
+Garbage collector :-
+----------------------
+It is an automatic memory management in java. JVM internally contains a component called Garbage collector, It is responsible to delete the unused objects or the objects which are not containing any references in the memory.
+
+PC Register :-
+--------------
+In order to hold the current executing instruction of a thread we use PC register (Program Counter Register). For a single JVM we can have multiple PC Registers.
+
+
+Native method stack :-
+--------------------------
+For every thread in java a seperate native stack is created. It stores the native method information.
+
+Interpreter :- 
+---------------
+JVM stands for Java Virtual Machine. It is a software in the form of Interpreter written in 'C' language. 
+
+The main purpose of JVM to load and execute the .class file.JVM has a component called class loader subsystem responsible to load the required .class file as well as It allocates the necessary memory needed by the java program.
+
+JVM executes our program line by line. It is slow in nature so java software people has provided a special compiler i.e JIT compiler to boost up the execution.
+
+
+JIT compiler :-
+-----------------
+It stands for just in time compiler. It is the part of JVM which increases the speed of execution of a java program.
+
+It holds the frequently used instruction and make it available at the time of executing java program so the execution will become faster.
+
+
+A static method does not act upon instance variable why ?
+-----------------------------------------------------------------
+We can't use instance variable inside the static method without creating an object because when we execute a java program the sequence is as follows :
+
+a) The class loader subsystem loads the .class file into JVM memory.
+
+b) JVM executes the static block, if any static block is available in the class
+
+c) JVM starts searching the main() to execute the java program.
+
+d) If user has created any object then object creation and initialization of all     instance variables will be started from here.
+
+So, from the above points it is clear that at the time of executing the static method instance variables are not available, that is the reason we can't use instance variables inside a static method without creating an object. 
+
+
+How to invoke a static method :
+-----------------------------------
+If a static method is available in the same class then we can directly call the static method but if the static method is available in another class then we can call the static method with the help of class name.
+
+Declaring a static variable :-
+-------------------------------
+If the value of  variable is different with each object then we should declare instance variable but if the value is common for all the object then we should declare static variable. 
+
+
+               ABSTRACT CLASS AND ABSTRACT METHOD
+	       -------------------------------------------------
+
+An abstract method is a common method which is used to provide easiness to the programmer because the programmer faces complexcity to remember the method name.
+
+An abstract method observation is very simple because every abstract method contains abstract keyword, abstract method does not contain any body and at the end there must be a terminator i.e ; (semicolon)
+
+In java whenever action is common but implementations are different then we should use abstract method, Generally we declare abstract method in the super class and its implementation must be provided in the sub class.
+
+if a class contains atleast one method as an abstract method then we should compulsory declare that class as an abstract class.
+
+Once a class is declared as an abstract class we can't create an object for that class.
+
+All the abstract methods declared in the super class must be overridden in the child class otherwise the child class will become as an abstract class hence object can't be created for the child class as well.
+
+
+Note :- If we have a constructor inside the abstract class then that constructor will be executed.
+
+According to the defination, An abstract class  may or may not have an abstract method but an abstract method must have an abstract class.
+
+abstract class  Hello
+{
+	public void show()
+	{
+
+	}
+}
+
+interface :-
+-------------
+An interface is a keyword in java which is similar to a class.
+
+Upto JDK 1.7 an interfcae contains only abstract method that means there is a gurantee that inside an interfcae we don't have concrete methods.
+
+In order to implment the member of an interface, java software people has provided implements keyword.
+
+All the methods declared inside an interface is bydefault public and abstract so at the time of overriding we should apply public access modifier to sub class method.
+
+All the variables declared inside an interface is bydefault public, static and final.
+
+We should override all the methods of interface to the sub class otherwise the sub class will become as an abstract class hence object can't be created.
+
+We can't create an object for interface, but reference can be created.
+
+By using interfcae we can acheive multiple inheritance in java.
+
+
+interface Moveable
+{
+	int SPEED = 60;    //public + static + final
+
+	void move();       //What to do ?
+}
+class Car implements Moveable    //How to do?
+{
+	@Override
+	public void move()
+	{
+		//SPEED = 80 ;
+		System.out.println("Speed of the car is :"+SPEED);
+	}
+}
+class  MoveableDemo
+{
+	public static void main(String[] args) 
+	{
+		Moveable m = new Car();
+		m.move();
+		System.out.println("Car speed is :"+Moveable.SPEED);
+	}
+}
+---------------------------------------------------------------------------------------
+
+interface Bank
+{
+	 void deposit(int d);
+	 void withdraw(int w);
+}
+class Customer implements Bank
+{
+     int balance= 1000;
+	@Override
+	public void deposit(int d) 
+	{
+		if(d<=0)
+		{
+			System.out.println("Amount can't be deposited....");
+		}
+		else
+		{
+			balance = balance + d;
+			System.out.println("Amount after deposit :"+balance);
+		}		
+	}
+	@Override
+	public void withdraw(int w) 
+	{
+		balance = balance -w;
+		System.out.println("Amount after withdraw :"+balance);		
+	}	
+}
+public class BankDemo 
+{
+	public static void main(String[] args)
+	{
+		Bank b1 = new Customer();
+		b1.deposit(10000);	
+		b1.withdraw(9000);
+	}
+}
+--------------------------------------------------------------------------------------
+
+interface A
+{
+	void sum();
+}
+interface B 
+{
+	void sum();
+}
+class C implements A,B
+{
+	int a = 100;
+	int b = 200;
+	@Override
+	public void sum() 
+	{
+		int sum = a + b;
+		System.out.println("The sum of the number is :"+sum);
+	}	
+}
+public class MultipleInheritance 
+{
+	public static void main(String[] args)
+	{
+		C c1 = new C();
+		c1.sum();
+	}
+}
+--------------------------------------------------------------------------------------
+interface A1
+{
+  void m1();
+}
+
+interface B1
+{
+  void m2();
+}
+
+interface C1 extends A1,B1
+{
+   void m3();
+}
+class ImplementInterface implements C1
+{
+	@Override
+	public void m1() 
+	{
+		System.out.println("It is M1 method");	
+	}
+	@Override
+	public void m2() 
+	{
+		System.out.println("It is M2 method");			
+	}
+	@Override
+	public void m3() 
+	{
+		System.out.println("It is M3 method");		
+	}	
+}
+public class ExtendingInterfcae 
+{
+	public static void main(String[] args)
+    {
+		ImplementInterface i = new ImplementInterface();
+		i.m1();
+		i.m2();
+		i.m3();
+	}
+}
+--------------------------------------------------------------------------------------
+
+package com.ravi.veh;
+
+public interface Vehicle 
+{
+   void run();
+   void horn();
+   
+  default void digitalMeter()  //specific purpose (We can override this method)
+  {
+	  System.out.println("Digital meter");
+  }
+  
+  static void safe()  //Common purpose (for providing common method)
+  {
+	  System.out.println("Running safely");
+  }
+}
+
+
+package com.ravi.veh;
+
+public class Bike implements Vehicle 
+{
+	@Override
+	public void run() 
+	{
+		System.out.println("Running Bike....");
+	}
+
+	@Override
+	public void horn() 
+	{
+		System.out.println("Peep-peep");
+		
+	}
+
+}
+
+
+
+package com.ravi.veh;
+
+public class Car implements Vehicle 
+{
+	@Override
+	public void run() 
+	{
+		System.out.println("Running car.....");
+	}
+
+	@Override
+	public void horn() 
+	{
+		System.out.println("Pop-Pop");		
+	}
+
+	  public void digitalMeter()
+	  {
+		  System.out.println("Car has digital meter facility...");
+	  }
+}
+
+
+
+package com.ravi.veh;
+
+public class Main
+{
+	public static void main(String[] args) 
+	{
+		Vehicle v = new Car();
+		v.digitalMeter();
+		v.run();
+		v.horn();
+		
+		Vehicle v1 = new Bike();
+		v1.digitalMeter();
+		v1.run();
+		v1.horn();
+		Vehicle.safe();
+	}
+
+}
+-----------------------------------------------------------------------------------
+interface (JDK 1.8 onwards) :
+----------------------------------
+From JDK 1.8 onwards java software people allowed to write static and default method inside an interface.
+
+default method we can write inside an interface so we can provide  specific implementation for the classes which are implmenting from interface why because we can override default method inside the sub classes.
+------------------------------------------------------------------------------------
+//default method for specific class method implementation
+interface HotDrink
+{
+	void prepare();
+
+	default void expressPrepare()     //possible from jdk 1.8 
+	{
+        System.out.println("Preparing with premium");
+	}
+}
+class Tea implements HotDrink
+{
+	@Override
+	public void prepare()
+	{
+		System.out.println("Preparing Tea");
+	}
+	@Override
+	public void expressPrepare()
+	{
+        System.out.println("Preparing premium Tea");
+	}
+}
+class Coffee implements HotDrink
+{
+ @Override
+  public void prepare()
+	{
+		System.out.println("Preparing Coffee");
+	}
+}
+class DefaultMethod 
+{
+	public static void main(String[] args) 
+	{
+		HotDrink hk1 = new Tea();
+		HotDrink hk2 = new Coffee();
+		hk1.prepare();
+		hk1.expressPrepare();
+		hk2.prepare();
+	}
+}
+-------------------------------------------------------------------------------------
+
+ From JDK 1.8 onwards we can define a static method inside an interface, static method is used to provide common implementation for all the classes which are implementing the interface. Here we can provide some common message because we can't override static method.
+
+------------------------------------------------------------------------------------
+//static method implemntation common for all
+interface HotDrink
+{
+	void prepare();
+
+	static void expressPrepare()
+	{
+		System.out.println("Prepare with no sugar...");
+	}	
+}
+class Tea implements HotDrink
+{
+	public void prepare()
+	{
+		System.out.println("Preparing Tea");
+	}	
+}
+class Coffee implements HotDrink
+{
+  public void prepare()
+	{
+		System.out.println("Preparing Coffee");
+	}
+}
+class StaticMethod 
+{
+	public static void main(String[] args) 
+	{
+		HotDrink hk1 = new Tea();
+		HotDrink hk2 = new Coffee();
+		HotDrink.expressPrepare();
+		hk1.prepare();
+        hk2.prepare();		
+	}
+}
+
+-------------------------------------------------------------------------------------
+Anonymous class :-
+-----------------------
+As we know to implement the member of an interface we need a class but with the introduction of anonymous class concept we can override the abstract method of an interface inside the body of interface itself as shown in the program below.
+------------------------------------------------------------------------------------
+//Anonymous class
+interface Vehicle
+{
+     void run();
+}	    
+public class Anonymous
+{
+	public static void main(String [] args)
+	{
+           Vehicle v = new Vehicle()
+			{
+				@Override
+				public void run()
+					{
+						System.out.println("Running Safely");
+			        }
+			};
+			v.run();
+	}
+}
+------------------------------------------------------------------------------------
+@FunctionalInterface :-
+--------------------------
+If an interface contains only one abstract method then we can represent that interface by using FunctionalInterface annotation.
+
+@FunctionalInterface
+interface Vehicle
+{
+      void run();
+}
+
+-----------------------------------------------------------------------------------
+@FunctionalInterface
+interface Vehicle
+{
+     void run();
+}	    
+public class Anonymous1
+{
+	public static void main(String [] args)
+	{           
+		   Vehicle car = new Vehicle()
+			{
+				@Override
+				public void run()
+					{
+						System.out.println("Running Car");
+			        }
+			};			
+			car.run();
+            
+			Vehicle bike = new Vehicle()
+			{
+				@Override
+				public void run()
+					{
+						System.out.println("Running Bike");
+			        }
+			};			
+			bike.run();
+	}
+}
+-------------------------------------------------------------------------------------
+There is a predefined interface avaialble in java.lang package called Runnable interface, this Runnable interface contains only one abstract method i.e run(). Hence It is a Functional Interface.
+
+-----------------------------------------------------------------------------------
+class Anonymous2
+{
+  public static void main(String [] args)
+   {
+        Runnable r = new Runnable()
+	   {
+	   @Override
+            public void run()
+		   {
+			System.out.println("Running....");
+		   }
+	   };
+	   r.run();
+   }
+}
+------------------------------------------------------------------------------------
+
+Lambda Expression :-
+----------------------
+It is an anonymous function.
+
+It can be used with functional interface only.
+
+It is used to concise our code.
+
+Rules of Lambda :
+--------------------
+1) If the body of the lambda expression contains one statement then curly braces are optional.
+
+2) Java compiler automatically recognize the variable type so even data type is not required.
+
+-----------------------------------------------------------------------------------
+@FunctionalInterface
+interface Moveable
+{
+	public void move();
+}
+class Lambda1 
+{
+	public static void main(String[] args) 
+	{
+		Moveable m = ()-> 
+		{	
+		System.out.println("Hello Welcome to Lambda Expression");
+		};
+		m.move();
+	}
+}
+-----------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------
+@FunctionalInterface
+interface Calculate
+{
+	 void add(int a, int b);
+}
+class Lambda2 
+{
+	public static void main(String[] args) 
+	{
+		Calculate c = (a,b)-> 
+		{
+			System.out.println("Sum is :"+(a+b));
+		};
+		c.add(12,12);
+	}
+}
+-----------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------
+@FunctionalInterface
+interface Length
+{
+	 int getLength(String str);
+}
+class Lambda3 
+{
+	public static void main(String[] args) 
+	{
+		Length l = (str)-> 
+		{
+			return str.length();
+		};
+		System.out.print("Length is :"+l.getLength("India"));
+	}
+}
+-----------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------
+@FunctionalInterface
+interface Length
+{
+	 int getLength(String str);
+}
+
+class Lambda4 
+{
+	public static void main(String[] args) 
+	{
+		Length l = (str)-> str.length();		
+
+		System.out.print("Length is :"+l.getLength("Ravi"));
+	}
+}
+-----------------------------------------------------------------------------------
+
+			EXCEPTION HANDLING
+			--------------------------
+
+Exception :-
+-------------
+An exception is an abnormal situation or an unexpected situation in a normal execution flow.
+
+Due to an exception our execution of the program will be disturbed first and then terminated permanently.
+
+An exception occurs due to dependency, when one part of the program is dependent to another part in order to complete the task then there might ne chance of getting an exception.
+
+EXCEPTION ALSO OCCURS DUE TO THE WRONG INPUT GIVEN BY THE USER.
+
+Exception Hierarchy :-
+------------------------
+As a developer we are responsible to handle the exception whereas errors are taken care by System admin.
+-----------------------------------------------------------------------------------
+Object Orientation has provided some mechanism to handle the exception which are as follows :-
+
+1) try
+2) catch
+3) finally
+4) throw
+5) throws
+
+Some exception criteria and their respective classes in Java :-
+---------------------------------------------------------------------
+
+1) java.lang.ArithmeticException
+   It occurs when we divide a number by zero.
+
+   Eg :- int x = 10/0;
+
+2) java.lang.ArrayIndexOutOfBoundsException
+    It occurs when array is out of limit.
+
+    Eg :-  int []x = {12,78,90};
+             System.out.println(x[3]);
+
+3) java.lang.NumberFormatException
+    It occurs when the number is not in a proper format to convert.
+
+    Eg:-	 String x = "Ravi";
+		 int y = Integer.parseInt(x);
+ 
+ 4) java.lang.NullPointerException
+     It occurs when we apply any method on null literal.
+
+     Eg:-  String x = null;
+             x.length();
+
+
+Note :-
+Exception is the super class of all the exceptions we have in java 
+
+class ExpTest 
+{
+	public static void main(String[] args) 
+	{
+		Exception e = new ArithmeticException();
+		System.out.println(e);
+
+		Exception e1 = new ArrayIndexOutOfBoundsException();
+		System.out.println(e1);
+	}
+}
+------------------------------------------------------------------------------------
+If we don't use exception handling mechanism then our program will halt in the middle with abnormal termination.
+
+//Program to describe that if we don't use exception handling mechanism then our program will halt in the middle.
+class Test 
+{
+	public static void main(String[] args) 
+	{
+	     System.out.println("Main method started....");
+         int x = 10;
+		 int y = 0;
+		 int z = x/y;   //HALT ( java.lang.ArithmeticException)
+
+		 System.out.println("The value of z is :"+z);
+      	 System.out.println("Main method Ended....");
+	}
+}
+------------------------------------------------------------------------------------
+try :-
+-----
+Whenever our statement is error suspecting statement then put that statement inside the try block.
+
+The try block will trace the program line by line and if any exception occurs then It will create the exception object and throw the exception object to the nearest catch block.
+
+try block must be followed either by catch block or finnaly block. In between the try-catch we can't write any kind of statement.
+
+catch block :-
+---------------
+The main purpose of catch block to handle the exception which is thrown by try block.
+
+The catch block will only execute if there is an exception inside the try block.
+------------------------------------------------------------------------------------
+class FirstExp 
+{
+	public static void main(String[] args) 
+	{
+		System.out.println("Main method Started");
+		try
+	    {
+			int a=10;
+			int b=0;
+			int c=a/b;
+			System.out.println("The c value is :"+c);		
+	    }
+	    catch (Exception e)
+	    {
+		System.out.println(e);
+		}
+		System.out.println("Main method Completed");
+	}
+}
+------------------------------------------------------------------------------------
+Note :- After getting an exception inside the try block the remaining code inside the try block will not be executed.
+
+
+As we know an Exception is the super class for all the exceptions we have in java but according to our requirement we can also provide specific Exception.
+
+public class SpecificException 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+			int a [] = {12,23,34,45};
+			System.out.println(a[4]); //new ArrayIndexOutOfBoundsException();
+		    System.out.println("Inside try");
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+		  System.err.println(e);
+		  System.out.println("-------------------");
+		  e.printStackTrace();//For complete details regarding the exception
+		  System.out.println("-------------------");
+		  System.out.println(e.getMessage());
+		}	
+		System.out.println("Main is completed!!!");		
+	}
+}
+
+------------------------------------------------------------------------------------
+Multiple try catch blocks :
+------------------------------
+According to our requirement we can take multiple try-catch. Each try block will contain catch block to handle the exception.
+-----------------------------------------------------------------------------------
+public class MultipleTryCatch 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+		   int a=100,b=0,c;
+		   c = a/b;
+		   System.out.println("c value is :"+c);
+		}
+		catch(ArithmeticException e)
+		{
+		  System.err.println("Divide by zero problem....");	
+		}		
+		try
+		{
+			int x[] = {12,90};
+			System.out.println(x[2]);
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+		   System.err.println("Array is out of limit...");	
+		}
+		System.out.println("Main completed..");
+	}
+}
+
+-----------------------------------------------------------------------------------
+//Exception handling describes how to provide user-friendly messages to our client
+public class CustomerDemo 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+	      int a = 10;
+	      int b = 0;
+	      int c = a/b;
+	      System.out.println("c value is :"+c);
+		}		
+		catch(Exception e)
+		{
+			System.out.println("Please Don't put zero");
+		}
+		System.out.println("Hello user your program is completed!!!");
+	}
+}
+-------------------------------------------------------------------------------------
+Nested try :-
+--------------
+If a try block is placed inside another try block then it is called Nested try block. In nested try-block the inner try block will only execute if there is no exception inside the outer try block.
+
+Eg:-
+
+try              //outer try block
+{
+     statements;
+     try            //inner try block
+     {
+     }
+     catch(Exception e)
+     {
+     }
+}
+catch(Exception e)
+{
+}
+-------------------------------------------------------------------------------------
+public class NestedTry 
+{
+	public static void main(String[] args) 
+	{
+		try//Outer try
+		{
+			String x = null;
+			System.out.println("The length of "+ x+ " is :"+x.length());
+			
+			try //inner try
+			{
+			    String y = "Ravi";
+			    int z = Integer.parseInt(y);
+			    System.out.println("z value is :"+z);			  
+			}
+			catch(NumberFormatException e)
+			{
+			  System.err.println("Number is not in a format");	
+			}
+		}
+		catch(NullPointerException e)
+		{
+			System.err.println("Null Pointer problem...");
+		}
+        System.out.println("Main is completed....");
+	}
+}
+------------------------------------------------------------------------------------
+
+multiple catch block with single try :-
+------------------------------------------
+We can write multiple catch block with a single try block, multiple catch block is taken for providing more clearity regarding exception.
+
+While working with multiple catch blcoks the super class catch block must be the lsat catcg block otherwise we will get a compilation error.
+
+try
+{
+}
+catch(ArithemticException e)
+{
+}
+catch(ArrrayIndexOutOfBoundsException e)
+{
+}
+catch(Exception)
+{
+}
+
+Note :- super classs must ne the last catch block.
+
+------------------------------------------------------------------------------------
+public class MultyCatch 
+{
+	public static void main(String[] args) 
+	{
+		System.out.println("Main Started...");		
+		try
+		{
+			int a=10,b=0,c;
+			c=a/b;
+			System.out.println("c value is :"+c);	
+			
+			int x[] = {12,78,56};
+			System.out.println(x[4]);
+		}			
+		catch(ArrayIndexOutOfBoundsException e1)
+		{
+			System.err.println("Array is out of limit...");
+		}
+		catch(ArithmeticException e2)
+		{
+			System.err.println("Divide By zero problem...");
+		}	
+		catch(Exception e)
+		{
+			System.err.println("General ");		
+		}		
+		System.out.println("Main Ended...");
+	}
+}
+-------------------------------------------------------------------------------------
+finally block in java :-
+-------------------------
+The finally used to handle the resources. According to software engineering the resources are memory creation, buffer creation, Opening of a databade, opening of a file and so on, So we need to handle them carefully.
+
+finally is a block which is guranted for execution whether an exception has been thrown or not.
+
+We should write all the closing statements inside the finally block so finally block will execute and close all the statements.
+-------------------------------------------------------------------------------------
+public class FinallyBlock 
+{
+	public static void main(String[] args)
+	{	
+		try
+		{
+			System.out.println("main method started");
+			int a = 10;
+			int b = 0;
+			int c = a/b;  // new ArithmeticException();  HALT
+			System.out.println("c value is :"+c);			
+		}
+		finally
+		{
+			System.out.println("Finally block will be executed....");
+		}
+         System.out.println("Program is halt so It will not be executed");
+	}
+}
+------------------------------------------------------------------------------------
+
+Note :- If we write try with finally only the resources will be handled but not the exception whereas if we write try-catch and finally then exception and resources both will be handled.
+
+public class FinallyWithCatch 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+			System.out.println("Main is started!!!");
+			int a[] = {12,67,56};
+			System.out.println(a[3]);
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			System.err.println("Array is out of limit!!!");
+		}
+		finally
+		{
+		   System.out.println("Resources will be handled here!!");	
+		}
+		System.out.println("Main method ended!!!");
+	}
+}
+-------------------------------------------------------------------------------------
+*What is the difference between Checked Exception and Unchecked Exception?
+------------
+
+Checked Exception :-
+-----------------------
+The exceptions which are very common in Java are called Checked Exception. Compiler takes very much care regarding these exceptions.
+
+Here Compiler wants some clearity that by using this code you may face some problem at runtime and you didn't report me that how would you handle this code at runtime so provide either try-catch or declare the method as throws.
+
+Unchecked Exception :-
+--------------------------
+The exceptions which are rarely occurred in java and for these kinds of exception compiler does not take very much care are called unchecked exception.
+
+Unchecked exceptions are directly entertain by JVM because they are rarely occurred in java.
+
+When to provide try-catch or declare the method as throws :-
+---------------------------------------------------------------------
+We should provide try-catch if we want to handle the exception by own as well as if we want to provide user-defined messages to the client but we should declare the method as throws if we are not interested to handle the exception and try to send it to the JVM for handling. 
+
+Exception propogation :-
+---------------------------
+It is a mechanism where if any exception occur at a particular method and if the mothd does not have any exception handling mechanism then the method will verify the exception handling mechanism to the caller method like that exception will be propagated till main method.
+
+If any of the caller method contains exception handling mechanism then exception will be handled otherwise exeception will be unhandled.
+
+------------------------------------------------------------------------------------
+class ExceptionPropogation 
+{
+	public static void main(String[] args) 
+	{
+		System.out.println("Main method started");
+		m1();
+		System.out.println("Main method ended");
+	}
+	public static void m1()
+	{
+		try
+		{
+			m2();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Handled in m1");
+		}
+	}
+	public static void m2()
+	{
+	   	m3();
+	}
+	public static void m3()
+	{
+		System.out.println(10/0);
+	}
+}
+------------------------------------------------------------------------------------
+
+Types of exception in java :-
+--------------------------------
+In java we have two kinds of exception which are as follows :-
+
+1) Predefined exception Or Built-in exception 
+
+2) Userdefined exception Or Custom exception
+
+Predefined Exception :-
+-------------------------
+The exceptions which are defined by Java software people for their own use and specification are called Predefined Exception.
+Eg:-
+
+java.lang.ArithmeticException, java.lang.NumberFormatException and so on
+
+Userdefined Exceptions :-
+----------------------------
+The exceptions which are defined by user according to our own requirement are called Userdefined exception. In java we can develop userdefined exception by defining the following rules 
+
+1) The User-defined Exception class must be the sub-class of Exception
+
+Eg:-
+class UserDefinedException extends Exception{}
+
+2) The user defined class must contain default or parameterized constructor, if we want to pass some message to the super class then we must have parameterized constructor.
+
+class UserDefinedException extends Exception
+{
+     UserDefinedException()
+     {
+     }
+     UserDefinedException(String msg)
+     {
+     }
+}
+
+What is the difference between throw and throws :-
+----------------------------------------------------------
+throw :-
+----------
+As we know try block is responsible to create the exception object and throw the exception object to the catch block but in case of user defined exception a user is responsible to create the exception object and throw it to the catch block by using 'throw' keyword.
+
+throws :-
+----------
+Whenever a user is not interested to handle the exception and try to send it to JVM that means user doesn't want to handle the exception and try to skip fron the situation, in that situation we should declare the method as throws.
+
+class InvalidAgeException extends Exception
+{
+	public InvalidAgeException()
+	{
+	}
+	
+	InvalidAgeException(String msg)
+	{
+		super(msg);
+	}	
+}
+public class CustomException 
+{
+	public static void validate(int age) throws InvalidAgeException 
+	{
+		if(age<18)
+			throw new InvalidAgeException("Age is not valid");
+		else
+			System.out.println("Welcome to voting!!!");
+	}	
+	public static void main(String[] args) 
+	{
+	    try
+	    {
+	    	validate(12);
+	    }
+	    catch(Exception e)
+	    {
+	      System.err.println("Exception Occured :"+e);
+	    }
+	}
+}
+
+---------------------------------------------------------------------------------
+
+class GreaterMarksException extends Exception
+{
+	GreaterMarksException(){}
+	
+	GreaterMarksException(String message)
+	{
+		super(message);
+	}
+}
+public class CustomException1 
+{
+	public static void main(String[] args) 
+	{
+		validateMarks(102);
+	}	
+	static void validateMarks(int marks)
+	{
+		try
+		{
+           if(marks > 100)
+        	   throw new GreaterMarksException("Marks is Invalid");
+           else
+        	   System.out.println("Your marks is :"+marks);
+		}		
+		catch(Exception e)
+		{
+			System.err.println(e);
+		}
+	}
+}
+
+---------------------------------------------------------------------------------
+
+
+                                   THREAD
+				   ----------
+
+Write a program in java to proof that main a is thread ?
+--------------------------------------------------------------
+
+In java whenever we define main() method internally JVM creates a main thread.
+
+Thread is a predefined class available in java.lang package and it contains a predefined static method currentThread() through which we can find out the currently executing thread at that particular place.
+
+Eg:
+          Thread t = Thread.currentThread();
+---------------------------------------------------------------------------------
+
+public class MainDemo 
+{
+   public static void main(String[] args) 
+   {
+	 Thread t = Thread.currentThread();	 
+	 String name = t.getName();   	   
+	 System.out.println("Current thread is :"+name);	 
+   }
+}
+--------------------------------------------------------------------------------
+How to create user-defined Thread in java ?
+--------------------------------------------------
+In java we can create user defined thread by using following two techniques.
+
+1) By extending Thread class
+2) By implementing Runnable interface
+
+The following are the predefined interface and class in java.lang package 
+---------------------------------------------------------------------------------
+@FunctionalInterface
+interface Runnable
+{
+    void run();
+}
+
+class Thread implments Runnable
+{
+    @Override
+    public void run()
+    {
+    }    
+    start(){}
+    isAlive(){}
+    sleep(){}
+    join(){}
+    setPriority(int priority) {}
+    get Priority(){}
+    setName(String name)(){}
+    getName(){}
+    join()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Fan
+{
+    public static void start()
+      {
+          //Logic to switch on the fan
+      }
+      public static  void stop()
+      {
+         // Logic to switch off the fan
+      }
+};
+void main() 
+{   
+     Fan.start();            Fan.stop();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

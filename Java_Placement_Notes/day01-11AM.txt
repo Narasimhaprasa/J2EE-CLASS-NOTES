@@ -1,0 +1,221 @@
+83418537501
+848500
+
+
+
+Class Loader subsystem with JVM Architectute :-
+------------------------------------------------------
+The three main component of JVM 
+
+1) class loader sub system
+
+2) Runtime Data Areas
+
+3) Execution engine
+
+In order to load the required .class file, JVM makes a request to class loader sub system. The class loader sub system follows delegation hierarchy algorithm to load the required .class file from different area.
+
+To load the required .class file we have 3 different kinds of class loader
+
+1) Bootstrap class loader
+
+2) Extension/Platform class loader
+
+3) Application/System class loader
+
+Bootstrap class Loader :-
+----------------------------
+It is responsible to load the required .class file from java API that means all the predfined classes .class file will be loaded by Bootstrap class loader.
+It the super class of Extension class loader as well as It has the highest priority among all the class loader.
+
+Extension/Platform  class  Loader :-
+------------------------------
+It is responsible to load the required .class files from ext (extension) folder. Inside the extension folder we have  jar file(Java level zip file) given by some third party or user defined jar file.
+It is the super class of Application class loader as well as It has more priority than Application class loader.
+
+Application class Loader :-
+------------------------------
+It is responsible to load the required .class file from class path level i.e Environment variable. It has lowest priority as well as It is the sub class of Extension class loader.
+
+
+How Delegation Hierarchy algorithm works :-
+---------------------------------------------------
+Whenever JVM makes a request to class loader sub system to load the required .class file into JVM memory, first of all class loader sub system makes a request to Application class loader , Application class loader will delegate the request to the Extension class loader, Extension class loader will also delegate the request to Bootstrap class loader.
+Bootstrap class loader will load the .class file from lib folder(rt.jar) and then by pass the request to extension class loader, Extension class loader will load the .class file from ext folder(*.jar) and by pass the request to Application class loader, It will load the .class file from environment variable into JVM memory. 
+
+Note :- 
+If all the class loaders are unable to load the .class file into JVM memory then we will get a Runtime exception i.e java.lang.ClassNotFoundException
+
+
+class Test
+{
+   static int x = 100;       
+ }
+
+Linking :-
+------------
+verify :-
+-------
+It ensures the correctness the .class files, If any suspicious activity is there in the .class file then It will stop the execution immediately by throwing an exception i.e java.lang.VerifyError.
+
+There is something called ByteCodeVerifier, responsible to verify the .class file i.e byte code. Due to this verify module JAVA is highly secure language.
+
+Prepare :-
+-----------
+It will allocate the memory for all the static data member, here all the static data member will get the default values so if we have static int x = 100;
+then for x we will get the default value i.e 0.
+
+Resolve :-
+-----------
+All the symbolic references will be converted to direct references.
+
+Initialization :-
+-----------------
+In Initialization, all the static data member will get their actual value as well as if any static block is available in the class then the static block will be exceuted here.
+
+static block :-
+---------------
+It is a very special block in java which will be executed at the time of loading the .class file into JVM memory by class loader subsystem.
+
+The main purpose of static block to initialize the static data member of the class.
+
+static block will be executed only once because class loading is possible only once in java.
+
+If we have multiple static blocks in a class then It will be executed according to order.
+
+class Test
+{
+   Test() 
+	{
+	    System.out.println("defualt constructor...");
+        }
+
+   { 
+	    System.out.println("instance block...");
+   }
+
+   static
+   {
+	    System.out.println("Static block...");
+   }
+}
+class  StaticBlock
+{
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+
+	}
+}
+--------------------------
+class Demo
+{
+	 static int x;
+
+	 static
+	{
+		 x = 100;
+	}
+
+	static 
+	{
+		 x = 200;
+	}
+
+	static
+	{
+        System.out.println("x value is :"+x);
+	}
+}
+class StaticBlockOrder 
+{
+	public static void main(String[] args) 
+	{
+		Demo d = new Demo();
+	}
+}
+
+Note :- We can't execute a java program without main method, Upto jdk 1.6 it was possible to execute a java program without main method be writing the static block. From JDK 1.7 onwards now we can't execute java program without main method.
+
+
+How to load the .class file Dynamically Or Explicitly :
+-------------------------------------------------------
+Java software people has provided a predefined class called Class available in java.lang package.
+
+This class contains a predefined static method forName(), through which we can load the required .class file into JVM memory dynamically.
+
+It throws a checked exception i.e java.lang.ClassNotFoundException
+
+Class.forName("Test");   -> try-catch  OR throws
+
+
+class Foo
+{
+	static 
+	{
+		System.out.println("It is a static block");
+	}
+}
+class DynamicLoading 
+{
+	public static void main(String[] args) throws Exception
+	{
+		 Class.forName("Foo");
+	}
+}
+
+What is the difference between java.lang.ClassNotFoundException and 
+-------------------------------------------------------------------------------
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+
+java.lang.ClassNotFoundException :-
+-----------------------------------------
+It occurs when we try to load the required .class file at runtime by using Class.forName() statement and if the required .class file is not available at runtime then we will get an exception i.e java.lang.ClassNotFoundException
+
+class Foo
+{
+	static 
+	{
+		System.out.println("It is a static block");
+	}
+}
+
+class DynamicLoading 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+			 Class.forName(args[0]);  //Command line argument
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.err.println("Class is not available ....Plz check again");
+		}
+	}
+}
+
+
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+It occurs when the class was present at the time of compilation but at runtime the required .class file is not available(mannually deleted by user) then we will get an exception i.e java.lang.NoClassDefFoundError.
+
+
+class Hello
+{
+	void welcome()
+	{
+		System.out.println("Hello learner!!!!");
+	}
+}
+class  NoClassDefFoundErrorDemo
+{
+	public static void main(String[] args) 
+	{
+		Hello h = new Hello();
+		h.welcome();
+	}
+}
+
+Note :- delete the Hello.class file after compilation and then execute the program.

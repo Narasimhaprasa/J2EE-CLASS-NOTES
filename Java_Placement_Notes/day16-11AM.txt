@@ -1,0 +1,2838 @@
+83418537501
+848500
+
+
+
+Class Loader subsystem with JVM Architectute :-
+------------------------------------------------------
+The three main component of JVM 
+
+1) class loader sub system
+
+2) Runtime Data Areas
+
+3) Execution engine
+
+In order to load the required .class file, JVM makes a request to class loader sub system. The class loader sub system follows delegation hierarchy algorithm to load the required .class file from different area.
+
+To load the required .class file we have 3 different kinds of class loader
+
+1) Bootstrap class loader
+
+2) Extension/Platform class loader
+
+3) Application/System class loader
+
+Bootstrap class Loader :-
+----------------------------
+It is responsible to load the required .class file from java API that means all the predfined classes .class file will be loaded by Bootstrap class loader.
+It the super class of Extension class loader as well as It has the highest priority among all the class loader.
+
+Extension/Platform  class  Loader :-
+------------------------------
+It is responsible to load the required .class files from ext (extension) folder. Inside the extension folder we have  jar file(Java level zip file) given by some third party or user defined jar file.
+It is the super class of Application class loader as well as It has more priority than Application class loader.
+
+Application class Loader :-
+------------------------------
+It is responsible to load the required .class file from class path level i.e Environment variable. It has lowest priority as well as It is the sub class of Extension class loader.
+
+
+How Delegation Hierarchy algorithm works :-
+---------------------------------------------------
+Whenever JVM makes a request to class loader sub system to load the required .class file into JVM memory, first of all class loader sub system makes a request to Application class loader , Application class loader will delegate the request to the Extension class loader, Extension class loader will also delegate the request to Bootstrap class loader.
+Bootstrap class loader will load the .class file from lib folder(rt.jar) and then by pass the request to extension class loader, Extension class loader will load the .class file from ext folder(*.jar) and by pass the request to Application class loader, It will load the .class file from environment variable into JVM memory. 
+
+Note :- 
+If all the class loaders are unable to load the .class file into JVM memory then we will get a Runtime exception i.e java.lang.ClassNotFoundException
+
+
+class Test
+{
+   static int x = 100;       
+ }
+
+Linking :-
+------------
+verify :-
+-------
+It ensures the correctness the .class files, If any suspicious activity is there in the .class file then It will stop the execution immediately by throwing an exception i.e java.lang.VerifyError.
+
+There is something called ByteCodeVerifier, responsible to verify the .class file i.e byte code. Due to this verify module JAVA is highly secure language.
+
+Prepare :-
+-----------
+It will allocate the memory for all the static data member, here all the static data member will get the default values so if we have static int x = 100;
+then for x we will get the default value i.e 0.
+
+Resolve :-
+-----------
+All the symbolic references will be converted to direct references.
+
+Initialization :-
+-----------------
+In Initialization, all the static data member will get their actual value as well as if any static block is available in the class then the static block will be exceuted here.
+
+static block :-
+---------------
+It is a very special block in java which will be executed at the time of loading the .class file into JVM memory by class loader subsystem.
+
+The main purpose of static block to initialize the static data member of the class.
+
+static block will be executed only once because class loading is possible only once in java.
+
+If we have multiple static blocks in a class then It will be executed according to order.
+
+class Test
+{
+   Test() 
+	{
+	    System.out.println("defualt constructor...");
+        }
+
+   { 
+	    System.out.println("instance block...");
+   }
+
+   static
+   {
+	    System.out.println("Static block...");
+   }
+}
+class  StaticBlock
+{
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+
+	}
+}
+--------------------------
+class Demo
+{
+	 static int x;
+
+	 static
+	{
+		 x = 100;
+	}
+
+	static 
+	{
+		 x = 200;
+	}
+
+	static
+	{
+        System.out.println("x value is :"+x);
+	}
+}
+class StaticBlockOrder 
+{
+	public static void main(String[] args) 
+	{
+		Demo d = new Demo();
+	}
+}
+
+Note :- We can't execute a java program without main method, Upto jdk 1.6 it was possible to execute a java program without main method be writing the static block. From JDK 1.7 onwards now we can't execute java program without main method.
+
+
+How to load the .class file Dynamically Or Explicitly :
+-------------------------------------------------------
+Java software people has provided a predefined class called Class available in java.lang package.
+
+This class contains a predefined static method forName(), through which we can load the required .class file into JVM memory dynamically.
+
+It throws a checked exception i.e java.lang.ClassNotFoundException
+
+Class.forName("Test");   -> try-catch  OR throws
+
+
+class Foo
+{
+	static 
+	{
+		System.out.println("It is a static block");
+	}
+}
+class DynamicLoading 
+{
+	public static void main(String[] args) throws Exception
+	{
+		 Class.forName("Foo");
+	}
+}
+
+What is the difference between java.lang.ClassNotFoundException and 
+-------------------------------------------------------------------------------
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+
+java.lang.ClassNotFoundException :-
+-----------------------------------------
+It occurs when we try to load the required .class file at runtime by using Class.forName() statement and if the required .class file is not available at runtime then we will get an exception i.e java.lang.ClassNotFoundException
+
+class Foo
+{
+	static 
+	{
+		System.out.println("It is a static block");
+	}
+}
+
+class DynamicLoading 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+			 Class.forName(args[0]);  //Command line argument
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.err.println("Class is not available ....Plz check again");
+		}
+	}
+}
+
+
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+It occurs when the class was present at the time of compilation but at runtime the required .class file is not available(mannually deleted by user) then we will get an exception i.e java.lang.NoClassDefFoundError.
+
+
+class Hello
+{
+	void welcome()
+	{
+		System.out.println("Hello learner!!!!");
+	}
+}
+class  NoClassDefFoundErrorDemo
+{
+	public static void main(String[] args) 
+	{
+		Hello h = new Hello();
+		h.welcome();
+	}
+}
+
+Note :- delete the Hello.class file after compilation and then execute the program.
+
+What is the drawback of new keyword :-
+---------------------------------------------
+We know 'new' keyword is used to create the objcet but It demands the class name at the begning or at the time of compilation.
+
+new keyword is not suitable to create the object for the classes which are coming at runtime.
+
+In order to create the Object for the classes which are coming at runtime either from database or files, we should use newInstance() method available in class called Class.
+
+class Student
+{
+}
+class DynamicObjectCreation 
+{
+	public static void main(String[] x) throws Exception
+	{
+		Object obj =  Class.forName(x[0]).newInstance();
+		System.out.println("Object created for :"+obj.getClass().getName());
+	}
+}
+-----------------------------------------------------------------------------
+class Student
+{
+	void message()  //instance method
+	{
+		System.out.println("Welcome students...");
+	}
+}
+class DynamicObjectCreation 
+{
+	public static void main(String[] x) throws Exception
+	{
+		Object obj =  Class.forName(x[0]).newInstance();  //Student		
+		Student st =(Student) obj;
+		st.message();
+	}
+}
+-----------------------------------------------------------------------------------
+Program on class Class object, to get the details of the class
+------------------------------------------------------------------------------------
+import java.lang.reflect.Method;
+class ClassDescription 
+{
+	public static void main(String[] args) throws Exception
+	{
+		int count = 0;
+		 Class cls = Class.forName("java.lang.Integer");
+		 System.out.println("Name of the class is :"+cls.getName());
+		 System.out.println("Name of the package :"+ cls.getPackage());
+
+        Method [] methods = cls.getDeclaredMethods();
+
+		for(Method x : methods)
+		{
+			count++;
+			System.out.println( x.getName());
+		}
+        System.out.println("Total methods are :"+count);
+	}
+}
+---------------------------------------------------------------------------------------
+2) Runtime data areas :-
+----------------------------
+Method area :-
+---------------
+In this area all class level information is available. Actually the .class file is dumpped here hence we have all kinds of information related to class is available like name of the class, name of the immediate super class, method and variable name, static variable and so on.
+
+There is only one method area per JVM.
+
+Heap memory :-
+------------------
+It stores information regarding object and instance variables. All the objects are created as a part of HEAP memory so automatically all the instance variables are also the part of HEAP memory.
+
+The is only one HEAP area per JVM.
+
+Stack area :-
+--------------
+For every thread, JVM creates a seperate runtime stack. Each stack is created as a part of stack memory. All the local variables are also the part of stack memory.
+Each entry in the stack is called Stack Frame, Each stack frame containd three parts
+1) Local variable Array
+2) Frame Data
+3) Operand Stack
+
+Garbage collector :-
+----------------------
+It is an automatic memory management in java. JVM internally contains a component called Garbage collector, It is responsible to delete the unused objects or the objects which are not containing any references in the memory.
+
+Heap and stack diagram
+      OR
+Grabage collector program 
+     OR 
+Output of any complex program
+
+class Customer
+{
+	private String name;
+	private int id;
+
+	public Customer(String name , int id)
+	{
+		this.name=name;
+		this.id=id;
+	}
+	public void setId(int id)  //setter   
+	{
+		this.id=id;
+	}
+	public int getId() //getter
+	{
+		return id;
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int val=100;
+		Customer e = new Customer("Ravi",2);
+		m1(e);	
+		//gc  //3000x object is eligible for garbage collector
+		System.out.println(e.getId());
+	}
+	public static void m1(Customer e)
+	{
+		e.setId(5);
+		e=new Customer("Rahul",7);
+		e.setId(9);
+		System.out.println(e.getId());
+	}
+}
+
+---------------------------------------------------------------------------------------------
+public class Employee
+{
+	int id=100;
+	public static void main(String[] args) 
+	{
+		int val=200;
+		Employee e1 = new Employee();
+		e1.id=val;
+		update(e1);
+		
+		System.out.println(e1.id);
+        Employee e2 = new Employee(); 
+		e2.id=500;
+
+		switchEmployees(e2,e1);
+		
+		    //gc
+			System.out.println(e1.id);
+		    System.out.println(e2.id);
+	    }
+     
+	 public static void update(Employee e)
+	 {
+        e.id=900;
+		e=new Employee();
+		e.id=400;
+	 }
+
+	 public static void switchEmployees(Employee e1,Employee e2)
+	  {
+		 int temp=e1.id;
+		 e1.id=e2.id;
+		 e2= new Employee();
+		 e2.id=temp;
+	  }
+   }
+
+------------------------------------------------------------------------------------------
+class Test1
+{
+	public static void main(String[] args) 
+	{
+		public int x ;
+		System.out.println(" x value is :"+x);
+	}
+}
+
+//A local variable must be initialized as well as we can't use access modifier like public protected and private
+
+-----------------------------------------------------------------------------------------------
+
+class Demo 
+{
+	int x = 100;
+	public static void main(String[] args) 
+	{
+		System.out.println("x value is :"+x); //error
+	}
+}
+---------------------------------------------------------------------------------------
+
+class Demo 
+{
+	static int x = 100;
+	public static void main(String[] args) 
+	{
+		System.out.println("x value is :"+x); 
+	}
+}
+---------------------------------------------------------------------------
+class Demo 
+{
+	int x = 100;
+	public static void main(String[] args) 
+	{
+		Demo d1 = new Demo();
+		System.out.println("x value is :"+d1.x); 
+	}
+}
+------------------------------------------------------------------------------
+In order to access instance variable or instance nethod from a static method, we need to create an object first
+
+class Foo 
+{
+	int x = 100;//instance variable
+	public static void main(String[] args) 
+	{
+	     Foo f1 = new Foo();
+		 f1.m1();
+		 System.out.println(f1.x);
+	}
+
+	void m1()//instance method
+	{
+		System.out.println("It is m1 method"); 
+	}
+}
+---------------------------------------------------------------------------------------
+If a static method is available in the same class we can directly call the static method but if the static method is avaialble in another class then we need to call the static method with the help of class name 
+
+class Foo 
+{
+	public static void main(String [] args )
+	{
+           m1();
+		   Sample.m2();
+	}
+
+	 static void m1()
+	{
+		 System.out.println("It is a static method...");
+	}
+}
+
+class Sample 
+{
+	static void m2()
+	{
+		System.out.println("static method inside m2");
+	}
+}
+--------------------------------------------------------------------------------------
+class Test
+{
+	int x; //instance variable
+
+	void input(int x)  //instance nethod
+	{
+		this.x = x;
+	}
+
+	static void access()
+	{
+		System.out.println("x value is :"+x);
+	}
+}
+class StaticAccess 
+{
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+		t1.input(15);
+
+		Test.access();
+	}
+}
+------------------------------------------------------------------------------------
+class Test
+{
+	int x; //instance variable
+
+	void input(int x)  //instance nethod
+	{
+		this.x = x;
+		this.access();
+	}
+
+	 void access()
+	{
+		System.out.println("x value is :"+x);
+	}
+}
+class StaticAccess 
+{
+	public static void main(String[] args) 
+	{
+		new Test().input(15);  //nameless Object OR Anonymous object
+		
+	}
+}
+--------------------------------------------------------------------------------------
+class Test
+{
+	int x; //instance variable
+
+	void input(int x)  //instance nethod
+	{
+		this.x = x;
+	}
+
+	 void access()
+	{
+		System.out.println("x value is :"+x);
+	}
+}
+class StaticAccess 
+{
+	public static void main(String[] args) 
+	{
+	    Test  t1 = new Test();
+		   t1.input(15);
+		   this.access();		
+	}
+}
+----------------------------------------------------------------------------------------
+PC Register :-
+--------------
+In order to hold the current executing instruction of a thread we use PC register (Program Counter Register). For a single JVM we can have multiple PC Registers.
+
+
+Native method stack :-
+--------------------------
+For every thread in java a seperate native stack is created. It stores the native method information.
+
+Interpreter :- 
+---------------
+JVM stands for Java Virtual Machine. It is a software in the form of Interpreter written in 'C' language. 
+
+The main purpose of JVM to load and execute the .class file.JVM has a component called class loader subsystem responsible to load the required .class file as well as It allocates the necessary memory needed by the java program.
+
+JVM executes our program line by line. It is slow in nature so java software people has provided a special compiler i.e JIT compiler to boost up the execution.
+
+
+JIT compiler :-
+-----------------
+It stands for just in time compiler. It is the part of JVM which increases the speed of execution of a java program.
+
+It holds the frequently used instruction and make it available at the time of executing java program so the execution will become faster.
+
+Working with class and Object :-
+-------------------------------------
+class Student
+{
+  private int sno;
+  private String name;
+
+  public void input()
+	{
+	   sno =111;
+	   name = "Ravi";
+	}
+
+  public void show()
+  {
+    System.out.println(sno);
+    System.out.println(name);
+  }
+  public static void main(String [] x)
+  {
+    Student s1 = new Student();
+            s1.show();
+			s1.input();
+			s1.show();
+  }
+}
+
+-------------------------------------------------------------------------------------
+class Student
+{
+  private int sno;
+  private String name;  
+
+  Student()
+	{	 
+	  System.out.println(sno);
+	  System.out.println(name);
+	}	
+ 
+  public static void main(String [] x)
+  {
+    Student s1 = new Student(); 			
+  }
+}
+
+Note :- In this program from the first line of constructor we have a super call, which is calling the default constructor of Object class.
+---------------------------------------------------------------------------------------
+
+What happens internally when we create an Object ?
+OR
+When to declare instance variable and when to declare static variable?
+
+
+//This following program describes whenever we create an object a seperate copy of instance variables will be created with different memory location.
+
+class Test 
+{
+	int x = 15;
+
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+		Test t2 = new Test();
+
+		++t1.x;        --t2.x;
+
+		System.out.println(t1.x);
+		System.out.println(t2.x);
+	}
+}
+----------------------------------------------------------------------------------------
+//static variables create the sible copy sharable by all the objects, so if there is a change by any object then it will reflect to all the objects
+class Test 
+{
+	static int x = 15;
+
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+		Test t2 = new Test();
+
+		++t1.x;    ++t2.x;  
+
+		System.out.println(t1.x);
+		System.out.println(t2.x);
+	}
+}
+----------------------------------------------------------------------------------------class Student
+{
+   int rollNumber;
+   String name;
+   String address;
+   static String collegeName = "Osmania";
+}
+
+We shoud declare instance variable if the value is different with each object on the other hand we should a variable as a ststic variable if the value is common for all the objcets like collegeName is a cooman value for all the Students.
+The following explains about this concept.
+
+class Student
+	{
+   int roll;
+   String name;
+   static String college ="JNTU"; //college name will be same for all students
+   
+   Student(int r,String n)
+	{
+   roll = r;
+   name = n;
+    }
+
+ void display ()
+	 {
+	 System.out.println(roll+" "+name+" "+college);
+	 }
+
+ public static void main(String args[])
+ {
+ Student s1 = new Student (101,"Rahul");
+ Student s2 = new Student (102,"Aswin"); 
+ Student s3 = new Student (103,"Virat"); 
+ s1.display();
+ s2.display();
+ s3.display();
+ }
+}
+----------------------------------------------------------------------------------------
+class Student
+	{
+   int roll;
+   String name;
+   static String college ="JNTU"; //college name will be same for all students
+   
+   Student(int r,String n)
+	{
+   roll = r;
+   name = n;
+    }
+
+ void display ()
+	 {
+	 System.out.println(roll+" "+name+" "+college);
+	 }
+
+ public static void main(String args[])
+ {
+ Student s1 = new Student (101,"Rahul");
+ Student s2 = new Student (102,"Aswin"); 
+ Student s3 = new Student (103,"Virat"); 
+ s1.display();
+ s2.display();
+ s3.display();
+ }
+}
+-------------------------------------------------------------------------------------
+In the above program We have given together So, It is not an object oriented approach even we are creating the object. It increases tight coupling.
+
+
+Why we pass parameter to a function :-
+---------------------------------------------
+1) For geeting more information
+2) To get the values from outside world
+3) To initialize the instance variables of class.
+
+How to define BLC and ELC classes in our Program
+---------------------------------------------------------
+
+//BLC (Business Logic class)
+class MyTeam
+{
+	int tno;
+	String tname;
+
+    public void input(int tno, String tname)
+	{
+        this.tno = tno;
+		this.tname = tname;
+	}
+
+	public void show()
+	{
+		System.out.println("Number of member is :"+tno);
+		System.out.println("Name of the member is :"+tname);
+	}
+}
+class  Team   //ELC (Executable Logic class)
+{
+	public static void main(String[] args) 
+	{
+	     MyTeam mt = new MyTeam();
+		 mt.input(111,"Ravi");
+		 mt.show();
+	}
+}
+----------------------------------------------------------------------------------------
+
+What is the benefit of writing constructor in our program :-
+------------------------------------------------------------------
+If we write constructor in our program then compiler will not add any kind of constructor, we initialize our all instance veriables inside the constructor so variable initialization and variable re-initialization both are done in the same place as shown in the diagram below.
+
+Constructor :-
+----------------
+It is used to construct the Object that's why the name is constructor.
+
+
+Constructor :-
+---------------
+It is a special method whose name is same as class name or in words we can say if the class name and method name both are same then it is called constructor.
+
+The main purpose of constructor to initialize the object that initialize the instance variable of the class.
+
+Every java class has a constructor either implicitly added by the compiler or explicitly written by the user.
+
+A default constructor will be added by the compiler in a class to provide default values for the instance variables in case user has not written any kind of constructor.
+
+Constructor never containing any return type including void also.
+
+A constructor is automatically called and executed at the time of creating the object.
+
+A constructor is called only once per object that means when we craete the object constructor will be called and executed, if we create the object again then again the constructor will be called and executed.
+
+
+Note :- A constrauctor can't be declared as static and final. A constructor can not be inherited in java.
+
+
+Java supports 4 kinds of constructor
+----------------------------------------
+1) default constructor
+
+2) parameterized constructor
+
+3) copy constructor
+
+4) private constructor
+
+ default constructor:-
+ -----------------------
+ If no argument is passed to the constructor then it is called default constructor
+
+Program on default constructor :-
+------------------------------------
+class Person
+{
+	int pid;
+	String pname;
+    
+	Person()  //default constructor
+	{
+		pid = 111;
+		pname = "Rahul";
+	}
+
+	public void show()
+	{
+		System.out.println("Person id is :"+pid);
+		System.out.println("Person name is :"+pname);
+	}
+}
+
+class PersonDemo 
+{
+	public static void main(String[] args) 
+	{
+		Person p1 = new Person();
+		p1.show();
+
+		Person p2 = new Person();
+		p2.show();
+	}
+}
+----------------------------------------------------------------------------------------
+Program on parameterized constructor :-
+---------------------------------------------
+If we pass one or more arguments to the constructor then it is called parameterized constructor.
+
+
+class Person
+{
+	private String name;
+	private int age;
+	Person() //default constructor
+	{
+		name = "Rohit";
+		age = 12;
+	}    
+	Person(String name, int age) //parameterized constr.
+	{
+		this.name = name;
+		this.age = age;
+	}
+	public void talk()
+	{
+		System.out.println("My name is : "+name);
+		System.out.println("My age is : "+age);
+	}
+}
+
+class ParameterizedDemo 
+{
+	public static void main(String[] args) 
+	{
+		Person p1 = new Person();
+		Person p2 = new Person("Virat", 14);
+		p2.talk(); p1.talk();
+	}
+}
+-----------------------------------------------------------------------------------
+Copy Constructor : -
+------------------
+If an object reference is passed to a constructor then it is called copy constructor.
+
+The main purpose of copy constructor is to copy the contant of one object to another object.
+
+Ex:-
+
+class Student
+{
+   int roll;
+   String name;
+
+   Student() //default constructor
+   {
+   }
+
+   Student(int r, String n) //parameterized constructor
+   {
+       roll = r;
+       name = n;
+   }
+
+   Student(Student s)  //copy constructor
+   {
+    
+   }
+
+}
+--------------------------------------------------------------------------------------
+class Player
+{
+  String name1, name2;
+
+  Player(String name1 , String name2)
+  {
+     this.name1 = name1;
+	 this.name2 = name2;
+  }  
+
+  Player(Player p)
+  {
+    name1 = p.name2;
+    name2 = p.name1;
+  }
+  public void show()
+  {
+   System.out.println(name1);
+   System.out.println(name2);
+  }
+}   
+  
+class  CopyConstructor
+{
+	public static void main(String[] args) 
+	{
+		Player p1 = new Player("Virat", "Rohit");
+
+		Player p2 = new Player(p1);
+
+		p1.show();   p2.show();
+	}
+}
+-------------------------------------------------------------------------------------
+
+private constructor :-
+-----------------------
+We can declare a construor as private to make singletone class. In this class we can take static method which can be invoked without creating an object. 
+--------------------------------------------------------------------------------------
+class Customer 
+{
+	private Customer(){}
+
+    static void m1()
+	{
+		System.out.println("m1 static method....");
+	}
+
+	public static void main(String[] args) 
+	{
+		Customer c1 = new Customer(); //creating one object
+		Customer.m1();
+	}
+}
+-------------------------------------------------------------------------------------
+Inheritance :-
+----------------
+Deriving a new class from existing class in such a way that the new class will acquire all the features and properties of existing class is called Inheritance.
+
+It is one of the most imporatnt feature of oops which provides "CODE REUSABILITY".
+
+In java we provide inheritance using a keyword called 'extends'.
+
+Using inheritance mechanism the relationship between the classes is parent and child, According to C++ the parent class is called Base class and the Child class is called Derived class whereas According to Java the parent class is called as super class and the child class is called as sub class.
+
+Using inheritance all the features of super class is bydefault available to the sub class so the sub class need not to start the process from begning onwards.
+
+Inheritance follows top to bottom approach, In this hierarchy if we move towards upward direction more generalized properties will occur and on the other hand if we move towards downward direction more specialized properties will occur.
+
+Inheritace provides two kinds of relationship
+IS-A Relation :- It occurs between the classes.
+HAS-A Relation :- It occurs between the class and its property.
+--------------------------------------------------------------------------------------
+import java.util.*;
+
+class A
+{
+	int x,y;
+
+	public void input()
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter the value of x :");
+		x = sc.nextInt();
+
+		System.out.print("Enter the value of y :");
+		y = sc.nextInt();
+	}    
+}
+
+class B extends A
+{
+	public void show()
+	{
+		System.out.println("x value is :"+x);
+		System.out.println("y value is :"+y);
+	}
+}
+
+class SingleLevel 
+{
+	public static void main(String[] args) 
+	{
+		B b1 = new B();
+		b1.input();
+		b1.show();
+	}
+}
+-------------------------------------------------------------------------------------
+class Emp
+{
+	int eno;
+	String ename;
+	String eaddr;
+
+	public void setEmp()
+	{
+		eno = 111;
+		ename = "Virat";
+		eaddr = "Delhi";
+	}
+
+    public void disEmp()
+	{
+        System.out.println("Employee Number is :"+eno);
+		System.out.println("Employee Name is :"+ename);
+		System.out.println("Employee Address is :"+eaddr);
+	}
+}
+
+class Pemp extends Emp
+{
+	String dept;
+	String desi;
+
+	public void setPemp()
+	{
+		dept = "Cricket";
+		desi = "Batsman";
+	}
+
+	public void disPemp()
+	{
+		System.out.println("Employee Department is :"+dept);
+		System.out.println("Employee Designation is :"+desi);
+	}
+}
+public class EmpDemo 
+{
+	public static void main(String[] args) 
+	{
+		Pemp p = new Pemp();
+		p.setEmp();
+		p.disEmp();
+		p.setPemp();
+		p.disPemp();
+	}
+}
+-------------------------------------------------------------------------------------
+Program on multi-level inheritance:-
+----------------------------------------
+class Student
+{
+	int rollNumber;
+	String name;
+	double fees;
+}
+class Science extends Student
+{
+	int phy, che;
+}
+
+class PCM extends Science
+{
+	int math;
+	
+	PCM(int rollNumber,String name, double fees, int phy, int che, int math)
+	{
+		this.rollNumber = rollNumber;
+		this.name = name;
+		this.fees = fees;
+		this.phy = phy;
+		this.che = che;
+		this.math = math;
+	}
+	
+	public void show()
+	{
+		System.out.println("Student Roll Number is :"+rollNumber);
+		System.out.println("Student Name  is :"+name);
+		System.out.println("Student Fees is :"+fees);
+		System.out.println("Marks of Physics  is :"+phy);
+		System.out.println("Marks of Chemistry is :"+che);
+		System.out.println("Marks of Math is :"+math);
+	}
+	
+	public void result()
+	{
+		int total = phy + che + math;
+		System.out.println("Total marks is :"+total);
+	}
+}
+public class StudentDemo 
+{
+	public static void main(String[] args)
+	{
+		PCM p = new PCM(111,"Rahul",12000,89,88,90);
+		p.show();
+		p.result();
+	}
+}
+-----------------------------------------------------------------------------------
+
+Why java doesn't support multiple inheritance ?
+-----------------------------------------------------
+By default Java does not support multiple inheritance because It is a situation where a sub class wants to inherit the properties of two or more super classes as a result It may produce ambiguity problem that is the reason java does not support multiple inheritance.
+
+We have a concept called interface through which we can acheive multiple inheritance.
+
+super keyword :-
+-------------------
+It is used to access the member of immediate super class. In java we can use super keyword in 3 ways
+
+1) To call the variable of the super class 
+2) To call the method of super class
+3) To call the constructor of the super class***
+
+
+To call the variable of super class :-
+---------------------------------------
+Whenever super class variable name and sub class variable name both are same and if we create an object of sub class then it will give more priority to its own class variable if we want to call super class variable then we should use super keyword.
+
+super keyword always refers to its immediate super class as well as we should only use super keyword whenever the member of super class name and the member of sub class both are same.
+-----------------------------------------------------------------------------------
+class AA
+{
+	int x = 100;
+}
+class BB extends AA
+{
+	 int x = 200;
+	 
+	 BB()
+	 {
+		 System.out.println("Sub class x variable is :"+x);
+		 System.out.println("Super class x variable is :"+super.x);
+		 
+	 }
+}
+public class SuperVar
+{
+	public static void main(String[] args)
+	{
+		BB b1 = new BB();
+	}
+
+}
+------------------------------------------------------------------------------------
+To call the super class method :-
+-------------------------------------
+Whenever the super class method name and sub class method name both are same and if we create an object of sub class then it will give more priority to its own class method.
+        If we want to invoke the super class method then we should use super 
+keyword.
+-------------------------------------------------------------------------------------
+class Super
+{
+	void show()
+	{
+		System.out.println("Super class show method...");
+	}	
+}
+class Sub extends Super
+{
+	void show()
+	{
+		super.show();
+		System.out.println("Sub class show method...");
+		super.show();
+	}	
+}
+public class SuperMethod 
+{
+	public static void main(String[] args)
+	{
+		Sub s = new Sub();
+		s.show();
+		
+	}
+
+}
+-------------------------------------------------------------------------------------
+3) To call the constructor of super class :-
+-----------------------------------------------
+To call the super class constructor:-
+----------------------------------------
+Whenever we write a class in java and if we have not written any kind of constructor then automatically the compiler will add one default constructor to the class.
+The first line of any constructor is reserved either for super() or this(). If a developer does not specify either super() or this() to the first line of constructor then compiler will automatically add super() to the first line of constructor.
+
+super() :-
+-----------
+It is used to call the default constructor of the super class.
+-------------------------------------------------------------------------------------
+class Base
+{
+	Base()
+	{		
+		System.out.println("Super class Constructor...");
+	}
+}
+class Derived extends Base
+{
+	Derived()
+	{
+		System.out.println("Sub class constructor.....");		
+	}
+}
+public class ConstructorChaining 
+{
+	public static void main(String[] args) 
+	{
+		Derived d = new Derived();
+	}
+}
+------------------------------------------------------------------------------------
+super("Naresh");
+-------------------
+It is used to call parameterized constructor of the super class.
+-------------------------------------------------------------------------------------
+package com.ravi.veh;
+
+class Parent
+{
+	Parent(String x)
+	{
+		System.out.println("Institute Name is :"+x);
+	}
+}
+class Child extends Parent
+{
+	Child()
+	{
+		super("Naresh");
+		System.out.println("Child class");
+	}
+}
+public class ParameterizedDemoSuper 
+{
+	public static void main(String[] args) 
+	{
+		
+		Child c = new Child();
+	}
+
+}
+-----------------------------------------------------------------------------------
+this() :-
+---------
+It is used to call the default constructor of its own class
+----------------------------------------------------------------------------------
+class Parent
+{
+	Parent()
+	{
+		
+		System.out.println("Default constructor....");
+	}
+	Parent(String x)
+	{
+		this();
+		System.out.println("Institute Name is :"+x);
+	}
+}
+class Child extends Parent
+{
+	Child()
+	{
+		super("Naresh");
+		System.out.println("Child class");
+	}
+}
+public class ParameterizedDemoSuper 
+{
+	public static void main(String[] args) 
+	{
+		
+		Child c = new Child();
+	}
+
+}
+------------------------------------------------------------------------------------
+this("Ravi") :-
+----------------
+It is used to call the parameterized constructor of its own class
+------------------------------------------------------------------------------------
+class Parent
+{
+	Parent()
+	{
+		this("Naresh");
+		System.out.println("Default constructor....");
+	}
+	Parent(String x)
+	{		
+		System.out.println("Institute Name is :"+x);
+	}
+}
+class Child extends Parent
+{
+	Child()
+	{		
+		System.out.println("Child class");
+	}
+}
+public class ParameterizedDemoSuper 
+{
+	public static void main(String[] args) 
+	{
+		
+		Child c = new Child();
+	}
+
+}
+-----------------------------------------------------------------------------------
+
+class A
+{
+	A()
+	{
+		System.out.println("Class A");
+	}
+}
+class B extends A {
+	
+}
+
+class C extends B
+{
+	C()
+	{   
+		System.out.println("Class C");
+	}
+}
+public class ConstructorTest 
+{
+	public static void main(String[] args) 
+	{
+		C c1 = new C();
+	}
+}
+-----------------------------------------------------------------------------------
+
+package com.ravi.veh;
+
+class Shape
+{
+	int x;//2
+	Shape(int x)
+	{
+		this.x = x;
+		System.out.println("x value is :"+x);
+	}
+}
+class Square extends Shape
+{
+
+	Square(int x) 
+	{		
+		super(x);		
+	}
+	
+	public void area()
+	{
+		System.out.println("The area of square is :"+(x*x));
+	}	
+}
+public class ShapeDemo 
+{
+	public static void main(String[] args) 
+	{
+		Square ss = new Square(2);   ss.area();
+	}
+
+}
+------------------------------------------------------------------------------------
+class Shape
+{
+	int x;//2-> 4
+	Shape(int x)
+	{
+		this.x = x;
+		System.out.println("x value is :"+x);
+	}
+}
+class Square extends Shape
+{
+
+	Square(int x) //2 -> 4
+	{		
+		super(x);		
+	}
+	
+	public void area()
+	{
+		System.out.println("The area of square is :"+(x*x));
+	}	
+}
+class Rectangle extends Square
+{
+	int a;
+	
+	Rectangle(int l, int b)  //l=4      b=5
+	{
+		super(l);
+		a = b;
+	}
+	
+	public void area()
+	{
+		System.out.println("The area of Rectangle is :"+(x*a));
+	}
+}
+
+public class ShapeDemo 
+{
+	public static void main(String[] args) 
+	{
+		Square ss = new Square(2);   ss.area();
+		
+		Rectangle rr = new Rectangle(4,5);   rr.area();
+	}
+
+}
+-------------------------------------------------------------------------------------
+Basic IQ:-
+----------
+
+class Test1 
+{
+	public static void main(String[] args) 
+	{
+		int a = 010;     //octal 0-7
+		int b = 0xadd; //Hexadecimal 0-f
+		int c = 0b111; //Binary 0 and 1		
+		System.out.println("a value is :"+a);
+		System.out.println("b value is : "+b);
+		System.out.println("c value is : "+c);
+		
+	}
+}
+------------------------------------------------------------------------------------
+
+public class Test2
+{
+public static void main(String[] args)
+	{
+		short s = 135;
+		byte b = (byte)s;
+		System.out.println("Value is :"+b);
+		System.out.println(Short.MAX_VALUE);
+		System.out.println(Short.MIN_VALUE);
+
+		long l = 123L;
+		float f = l;
+		System.out.println(f);
+	
+	}
+}
+------------------------------------------------------------------------------------
+class Test3 
+{
+	public static void main(String[] args) 
+	{
+		double x = 015.29; //iN FLOATING LITERAL WE HAVE ONLY DECIMAL FORM, NO OCTAL, HEXADECIMAL  AND BINARY
+
+		 double y = 0167;
+
+		 double z = 0187;//error
+
+		System.out.println(x+","+y+","+z);
+	}
+}
+------------------------------------------------------------------------------------
+class Test4 
+{
+	public static void main(String[] args) 
+	{
+		double x = 0X29;
+
+		double y = 0X9.15; 
+		
+		System.out.println(x+","+y);
+	}
+}
+-----------------------------------------------------------------------------------
+class Test5 
+{
+	public static void main(String[] args) 
+	{
+		double a = 0791; //error
+
+		double b = 0791.0;
+
+		double c = 0777;
+
+		double d = 0Xdead;
+		
+		double e = 0Xdead.0;//error
+	}
+}
+------------------------------------------------------------------------------------
+class Test6 
+{
+	public static void main(String[] args) 
+	{
+	   double a = 1.5e3;
+	   float b = 1.5e3; //error
+	   float c = 1.5e3F;  
+	   double d = 10;    
+	   int e = 10.0; //error     
+	   int f = 10D;  //error 
+	   int g = 10F; //error
+	}
+}
+-------------------------------------------------------------------------------------
+
+public class Test7
+{
+    public static void main(String[] args)
+    {
+	boolean c = 0; //error
+        boolean d = 1; //error
+        System.out.println(c);
+        System.out.println(d);       
+    }
+}
+------------------------------------------------------------------------------------
+class Test8
+{
+	public static void main(String[] args) 
+	{
+		boolean x = "true";
+		boolean y = "false";
+		System.out.println(x);
+        System.out.println(y); 
+	}
+}
+-------------------------------------------------------------------------------------
+class Test9
+{
+	public static void main(String[] args) 
+	{
+		char c1 = 'A';
+		char c2 = 65;
+		char c3 = '\u0041';
+
+		System.out.println("c1 = "+c1+", c2 ="+c2+", c3 ="+c3);
+	}
+}
+-----------------------------------------------------------------------------------
+class Test9
+{
+	public static void main(String[] args) 
+	{
+		char c1 = 'A';
+		char c2 = 65;
+		char c3 = '\u0041';
+		  
+		char c4 = '\u0061';
+
+		System.out.println("c1 = "+c1+", c2 ="+c2+", c3 ="+c3+"c4="+c4);
+	}
+}
+-------------------------------------------------------------------------------------
+Note :- String is a final class in java 
+
+class Test10 
+{
+	public static void main(String[] args) 
+	{
+		String x = "india";
+		x.toUpperCase();
+		System.out.println(x);
+	}
+}
+-----------------------------------------------------------------------------------
+//== and equals(String x)
+//== checks reference     and  equals() checks content
+class Test11
+{
+	public static void main(String[] args) 
+	{
+		String s1="naresh";
+		String s2="naresh";
+		String s3=new String("naresh");
+
+       System.out.println(s1.equals(s2));//checks the content
+		 System.out.println(s1.equals(s3));
+
+	System.out.println(s1==s2); //check the reference but not content 
+		 System.out.println(s1==s3); 
+	}
+}
+------------------------------------------------------------------------------------
+
+//IQ
+class Test12
+{
+	public static void main(String args[])
+	{		
+		String s=15+29+"Ravi"+40+40;  
+		System.out.println(s);
+
+		int x = 12; int y = 14;
+		System.out.println("Sum of x and y is :"+x+y); 
+		System.out.println("Sum of x and y is :"+(x+y)); 	
+	}
+}
+-----------------------------------------------------------------------------------
+While working with array , we have length variable whereas while working with String, we have length() method.
+-----------------------------------------------------------------------------------
+//IQ
+class Test13
+{
+	public static void main(String args[])
+	{
+		String x = "India";
+		System.out.println("it's length is :"+x.length);
+	}
+}
+------------------------------------------------------------------------------------
+//IQ
+class Test14
+{
+	public static void main(String args[])
+	{
+		String [] x = new String[3]; 
+		System.out.println("it's length is :"+x.length());
+		
+	}
+}
+------------------------------------------------------------------------------------
+What is the difference among String, StringBuffer and StringBuilder
+----------------------------------------------------------------------------
+//Working with append() to describe the mutability
+class Test15
+{
+public static void main(String args[])
+	{
+		StringBuilder sb1=new StringBuilder("Data");
+		sb1.append("Base");
+		System.out.println(sb1);	
+
+		StringBuffer sb2=new StringBuffer("Tata");
+		sb2.append("Nagar");
+		System.out.println(sb2);	
+
+		String sb3=new String("Data");
+		sb3 = sb3.concat("Base");//DataBase
+		System.out.println(sb3);	
+	
+	}
+}
+-------------------------------------------------------------------------------------
+Performance of StringBuffer and StringBuilder :-
+-------------------------------------------------
+long ms = System.currentTimeMilis();
+--------------------------------------------
+
+//Program to demonstrate the performance of StringBuffer and StringBuilder classes.  
+class PerformanceProgram 
+{
+	public static void main(String[] args) 
+	{
+		long startTime = System.currentTimeMillis(); 		
+        StringBuffer sb = new StringBuffer("Java");  
+        for (int i=0; i<100000; i++)
+		{  
+            sb.append("StringBuffer");  
+        }		
+		long endTime = System.currentTimeMillis(); 
+        System.out.println("Time taken by StringBuffer: " + (endTime - startTime) + "ms");
+		
+
+
+		//Starting time for StringBuilder
+		startTime = System.currentTimeMillis();			
+        StringBuilder sb2 = new StringBuilder("Java");  
+        for (int i=0; i<100000; i++)
+		{  
+            sb2.append("StringBuilder");  
+        }  
+        endTime = System.currentTimeMillis(); 
+        System.out.println("Time taken by StringBuilder: " + (endTime - startTime) + "ms"); 	
+		}
+}
+-------------------------------------------------------------------------------------
+Operators :-
+--------------
+1) Binary operators :- It is also known as Arithmetic Operator. It works with two oprands that is the reason it is called Binary Operators.
+Eg:
+
++ , - , *, / ,  %
+
+Division Operator :-
+----------------------
+While working with integeral literal when we divide a number by zero i.e (10/0 = Infinity and 0/0=Undefined) then there is no way to reprsent this Infinity and Undefined so in both the cases we will get java.lang.ArithmeticException and the execution sequence of our program will be stopped.
+
+On the other hand if we divide a number by 0.0 i.e floating point literal then java.lang.Float and java.lang.Double, both classes have been defined POSITIVE_INFINITY , NEGATIVE_INFINITY and NaN (Not a number) constants to represent positive infinity, negative infinity and undefined respectively.
+
+
+Unary Operator :- 
+---------------------
+It works on single operand. we have 3 kinds of unary operator.
+
+1) Unary minus(-)    
+
+2) Increment operator (++)
+
+3) Decrement Operator (--)
+
+
+Local varibale :-
+-----------------
+The variables which are declared inside a method either as a method body or as a method parameter are called Local / Stack / Temporary / Automatic variable.
+
+As per as its scope is concerned It can be accessible within the same method only.
+
+A local variable must be initialized as well as we can't use access modifier (except final) on local variable.
+
+
+Assignment Operator :-
+--------------------------
+It is used to assign right hand side value to left hand side. Both the values must be compatible with each other.
+
+Relational Operator :-
+-------------------------
+These operators are used to compare the values. We have total 6 relational operator
+
+1)  >   (Greater than)
+2)  >= (Greater than or equal)
+3)  <   (less than)
+4)  <= (less than or equal)
+5)  == (double equal to)
+6)  !=  (Not equal to)
+
+Note :- These operators always return boolean type.
+
+
+
+If condition :- 
+----------------
+It is used to check condition and based on the condition, it will execute the statement. The return type of if condition is always boolean value.
+
+if(condition)
+{
+   statement1;
+}
+else
+{
+   statement2;
+}
+
+
+Nested if :-
+-----------
+if we place an if condition inside another if condition then it is called Nested if condition.
+
+if(condition) //outer if 
+{
+   if(condition) //Nested if condition (Inner if)
+   {
+   }
+   else
+   {
+   }
+}
+else
+{
+}
+
+Logical Operator :-
+---------------------
+It is used to join or compound two or more statements in a single condition.
+we have three kind of logical opertors
+
+1) && AND Operator
+
+2) || OR Operator
+
+3) !  Not Operator
+
+&&  -> all the conditions must be true
+
+||  -> at least one must be true
+
+!  -> It is an inverter so it makes true as a false and false as a true
+
+
+Boolean Operators :-
+------------------------
+These operators will work with boolean values.
+
+& Boolean AND operator
+
+| Boolean OR operator
+
+! Boolean Not operator
+
+& :- All the conditions must be true
+
+| :- At least one condition must be true
+
+! :- It is an inverter
+
+Bitwise Operator :-
+----------------------
+These operators are used to work with bit by bit operation. we have 3 kinds of bitwise operator 
+
+&  Bitwise AND Operator
+
+|   Bitwise OR Operator
+
+^  Bitwise X-OR Operator
+
+&  -> all conditions must be true
+
+|   -> at least one condition must be true
+
+^  -> It will return true if both the arguments are alternate to each other. 
+
+29-12-2021
+-------------
+Bitwise Complement Operator :-
+-------------------------------------
+This operator does not work with booelan. It can work with only integer. It is represented by ~ 
+
+Ternary Operator or Conditional operator (?:)
+---------------------------------------------------
+This operator is mainly used to reduce the size of if condition. It is called Ternary opertaor why because It uses 3 operators.
+
+
+Member Access Operator(.) :-
+-------------------------------
+This operator is represented by . (dot). It is used to access the member of the class like variables and methods.
+
+
+new Operator :-
+------------------
+This operator is used to create the object. With the help of object referenec we can invoke the method or variable of the class.
+
+If we have an instance variable or instance method (the non-static variable and method) then in order to call the method first of all we need to create an object.
+
+instanceof operator :-
+------------------------
+This operator is used to verify whether a reference variable is the instance of the particular object or not. If it is the instance of particular object then it will return true otherwise it will return false.
+
+default values of the instance variable with class and object :-
+----------------------------------------------------------------
+Whenever we write a class in java and if we have not written any kind of constructor then one defualt constructor would be added by the compiler.
+
+Now the main purpose of this constructor to initialize the instance variable of the class with some meaningful value called as default value.
+int -> 0
+float -> 0.0f
+double -> 0.0d
+char  -> '\u0000'
+String -> null
+boolean -> false
+
+
+//Arithmetic Operator
+// Division Operator
+class Test16
+{
+	public static void main(String [] args)
+	{
+		System.out.println(-10/0.0); //NEGATIVE_INFINITY	
+		System.out.println(10/0.0); //POSITIVE_INFINITY	
+		System.out.println(0/0.0);	  //NaN
+
+		System.out.println(10/0);  //ArithmeticException
+		System.out.println(0/0);   //ArithmeticException
+	}
+}
+
+------------------------------------------------------------------------------------
+Unary Operator :-
+--------------------
+1) Increment Operator (++)
+2) Decrement Operator (--)
+3) Unary minus (-)                                        
+--------------------------------------------------------------------------------
+//*Unary Operators (Acts on only one operand)
+//Unary minus Operator
+class Test17
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		System.out.println(-x); 
+		System.out.println(-(-x));
+	}
+}
+---------------------------------------------------------------------------------
+//Unary Operators
+//Unary Pre increment Operator
+class Test18
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		int y = ++x;
+		System.out.println(x+":"+y);
+	}
+}
+--------------------------------------------------------------------------------
+
+//Unary Operators
+//Unary Post increment Operator
+class Test19
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		int y = x++;
+		System.out.println(x+":"+y);
+	}
+}
+--------------------------------------------------------------------------------
+
+//Unary Operators
+//Unary Pre increment Operator
+class Test20
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		int y = ++15; //error
+		System.out.println(y);
+	}
+}
+-------------------------------------------------------------------------------
+//Unary Operators
+//Unary Pre increment Operator
+class Test21
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		int y = ++(++x); //error
+		System.out.println(y);
+	}
+}
+--------------------------------------------------------------------------------
+//Unary Operators
+//Unary post increment Operator
+class Test22
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		x++;
+		System.out.println(x);
+	}
+}
+
+--------------------------------------------------------------------------------
+public class Test28
+{
+static int i =5;
+public static void main(String... args) 
+{
+System.out.println(i++); //5
+System.out.println(i); //6
+System.out.println(++i);//7
+System.out.println(++i+i++);  // 8 +8 = 16
+}
+}
+--------------------------------------------------------------------------------
+class Test29 
+{
+	public static void main(String[] args) 
+	{
+		int x=2; int y=3;     //x=3
+		if((y==x++) | (x< ++y))  //means if 3 is equal to 2 or 3<4
+		{
+			System.out.println("x is :"+x+" y is :"+y);
+		}
+		
+	}
+}
+
+|| -> Logical Operator
+|  -> Boolean Operator
+---------------------------------------------------------------------------------
+public class Test30
+{
+        public static void main(String[] argv)
+        {
+               int z = 5;
+               if(++z > 5 || ++z > 6)
+				   z++;   
+               System.out.println(z);
+               
+	    }
+}
+--------------------------------------------------------------------------------
+public class Test31
+{
+       public static void main(String[] argv) 
+       {
+             int val = 0;
+             boolean test = (val == 0) || (++val == 2);
+             System.out.println("test = " + test + "\nval = " + val);
+       }
+}
+--------------------------------------------------------------------------------
+//Unary Operators
+//Unary post increment Operator
+class Test23
+{
+	public static void main(String[] args) 
+	{
+		char ch ='A';
+		ch++;
+		System.out.println(ch);
+	}
+}
+
+--------------------------------------------------------------------------------
+//Unary Operators
+//Unary post increment Operator
+class Test24
+{
+	public static void main(String[] args) 
+	{
+		double d = 15.15;
+		d++;
+		System.out.println(d);
+	}
+}
+ 
+--------------------------------------------------------------------------------
+//Unary Operators
+//Unary Post decrement Operator
+class Test25
+{
+	public static void main(String[] args) 
+	{
+		int x = 15;
+		int y = x--;
+		System.out.println(x+":"+y); 
+	}
+}
+
+---------------------------------------------------------------------------------
+//IQ   --> max(int, type of i, type of j)              
+class Test26
+{
+	public static void main(String args[])
+	{
+		byte i = 1;
+		byte j = 1;
+		byte k = i + j;
+		System.out.println(k);
+	}
+}
+
+---------------------------------------------------------------------------------
+//IQ   --> max(int, type of i, type of j)
+class Test27
+{
+	public static void main(String args[])
+	{
+		byte b = 6;
+                b = b + 7;     
+		System.out.println(b); 
+		
+
+	    byte c = 6;
+            c += 7;       
+           System.out.println(c); 
+	}
+}
+---------------------------------------------------------------------------------
+Polymorphism :- 
+--------------
+It is Greek word whose meaning is "SAME OBJECT HAVING DIFFERENT BEHAVIOUR".
+
+Poly = Many 
+
+morphism = Forms
+
+void person(Walking)
+void person(Running)
+void person(Sleeping)
+void person(Moving)
+void person(Riding)
+
+
+Polymorphism :-
+----------------
+Poly means "many" and morphism means "form". It is a Greek word whose meaning is "SAME OBJECT HAVING DIFFERENT BEHAVIOR"
+
+In our real life a person or a human being can perform so many task similarly in our programming languages a method or a constructor can perform so many task.
+
+Polymorphism can be divided into two categories :
+
+1) Compile time Polymorphism OR Static Polymorphism
+
+2) Run time Polymorphism OR Dynamic Polymorphism
+
+Compile time polymorphism :-
+----------------------------------
+The polymorphism which exist at the time of compilation is called static polymorphism. In static polymorphism compiler has a very good idea that which method is invoked depending upon the type of parameter we have passed in the method.
+
+This type of preplan polymorphism is called static or compile time polymorphism.
+
+Ex:-  Method Overloading
+
+Runtime polymorphism :-
+----------------------------
+The polymorphism which exist at runtime is called dynamic polymorphism. In dynamic polymorphism, compiler does not have any idea that which method is invoked, at runtime only the JVM will decide that which method is invoked depending upon the class type.
+
+This type of polymorphism is called dynamic or Runtime polymorphism Or dynamic method dispatch.
+
+Eg:- Method Overriding
+
+
+
+Method Overloading :-
+-------------------------
+Writing two or more methods in the same class in such a way that the method name must be same and argument must be different is called method overloading.
+
+While working with method overloading we can change the return type of the method.
+
+//program on constructor Overloading
+class Add
+{
+	Add(int a, int b)
+	{
+		System.out.println("Sum of two numbers :"+(a+b));
+	}
+
+	Add(int a, int b, int c)
+	{
+		System.out.println("Sum of three numbers :"+(a+b+c));
+	}
+
+	Add(float a, float b)
+	{
+       System.out.println("Sum of two floats are :"+(a+b));
+	}
+}
+class StaticPoly 
+{
+	public static void main(String[] args) 
+	{
+		Add a1 = new Add(1,3,6);
+		Add a2 = new Add(1,7);
+		Add a3 = new Add(2.3f, 4.2f);
+	}
+}
+---------------------------------------------------------------------------------
+//Program on method overloading
+class Addition
+ {
+   public int add(int a1,int a2)
+    {
+        int a3 = a1+a2;
+        return a3;
+    }
+   float add(float f1,float f2)
+    {
+     float f3 = f1+f2;
+     return f3;
+     }
+ }
+class MethodOverload1
+ {
+      public static void main(String args[])
+     {
+     Addition a = new Addition();
+      int x = a.add(12,34);
+      float y =a.add(2.45f,2.11f);
+	  System.out.println("Addition of two int is :"+x);
+	  System.out.println("Addition of two float is :"+y);
+     }
+ }
+--------------------------------------------------------------------------------
+While working with method Overloading if the same literal can assign to 2 or more methods then it will give more priority  to the nearest data type Or in other words child priority is more than parent priority
+
+class Test
+{
+	public void check(int b)
+	{
+		System.out.println("int executed");
+	}
+	public void check(long s)
+	{
+		System.out.println("long executed");
+	}
+}
+class OverLoadCheck1 
+{
+	public static void main(String[] args) 
+	{
+		Test t = new Test();
+		t.check(37);
+	}
+}
+---------------------------------------------------------------------------------
+class Test
+{
+	public void check(String b)
+	{
+		System.out.println("String executed");
+	}
+	public void check(Object s)
+	{
+		System.out.println("Object executed");
+	}
+}
+class OverLoadCheck2 
+{
+	public static void main(String [] args) 
+	{
+		Test t = new Test();
+		t.check("Naresh");
+	}
+}
+
+---------------------------------------------------------------------------------
+var-args :-
+----------
+It stands for variable arguments. It is actually an array variable which can hold 0 parameter to n number of parameter of same type.
+
+It is represented by ... (exactly 3 dots).By using this var-args conecpt, now we need to define only one method body for accepting different kinds of parameter.
+
+
+var-args must be only one argument as well as last argument in the method otherwise there will be a compilation error.
+-------------------------------------------------------------------------------
+class Test
+{
+	public void input(int ...a)   //var-args (Variable Argument)
+	{
+		System.out.println("Executed...");
+	}	
+}
+class VarArgs 
+{
+	public static void main(String... args) 
+	{
+		Test t = new Test();
+		t.input();
+		t.input(5);
+		t.input(5,10);
+		t.input(5,10,20);
+	}
+}
+
+---------------------------------------------------------------------------------
+//Program to add the parameters value
+class Test
+{
+	public void input(int ...a)   
+	{
+		int total = 0;
+
+		for (int b : a )
+		{
+            total = total + b;     
+		}
+		System.out.println("Sum of parameter is :"+total);
+	}	
+}
+class VarArgs1 
+{
+	public static void main(String... args) 
+	{
+		Test t = new Test();
+		t.input();
+		t.input(5);
+		t.input(5,10);
+		t.input(5,10,15);
+		t.input(5,10,15,20);
+	}
+}
+
+---------------------------------------------------------------------------------
+//var args must be last and only one parameter
+class Test
+{
+	public void input(int x, int y, int... a)
+	{
+		for (int z : a )
+		{
+			System.out.println(z);
+		}
+	}	
+}
+class VarArgs2 
+{
+	public static void main(String... args) 
+	{
+		Test t = new Test();
+		t.input(5,10,15,20,30,40);
+	}
+}
+
+-------------------------------------------------------------------------------
+
+Method Overriding :-
+-----------------------
+
+Writing two or more methods in super and sub class in such a way that method signature (Method name along with parameter) must be same is called Method Overriding.
+
+Method Overriding is only possible with inheritance, if there is no inheritance there is no method overriding.
+
+Generally we can't change the return type of the method while overriding a method but from JDK 1.6 onwards we can change the return type of the method by using a concept called Co-variant.
+
+---------------------------------------------------------------------------------
+class Animal
+{
+	  void eat()
+	{
+		System.out.println("I can't say");
+	}
+}
+class Dog extends Animal
+{
+	 void eat()
+	{
+		System.out.println("Non-Veg");
+	}
+	void bark()
+	{
+		System.out.println("BHU-BHU");
+	}
+}
+class Horse extends Animal
+{
+	void eat()
+	{
+		System.out.println("Veg type");
+	}
+}
+class AnimalDemo
+{
+	public static void main(String[] args) 
+	{
+		Animal a = new Dog();
+		a.eat();
+
+		Animal a1 = new Horse();
+		a1.eat();
+      
+	}
+}
+---------------------------------------------------------------------------------
+
+@Override Annotation :
+-------------------------
+It is a new Feature introduced in java from jdk 1.5 onwards. It is different from comment beacuse it ensures the compiler as well as User that the method is an overriden method and It must be available in the super class.
+
+If we use @Override annotation and If we are not overriding the method from super class then compiler will generate an error.
+
+--------------------------------------------------------------------------------
+class Super
+{
+  void show()
+  {
+    System.out.println("Super class show method...");
+  }
+}
+class Sub extends Super
+{
+   @Override
+  void show()
+  {
+	   System.out.println("Sub class show1 method...");
+  }
+}
+class  AnnotationDemo
+{
+	public static void main(String[] args) 
+	{
+		Super s1 = new Sub(); //Upcasting
+		s1.show();
+
+		Sub s2 = (Sub) s1; //Downcasting
+		s2.show();
+	}
+}
+--------------------------------------------------------------------------------
+Role of access modifer while overridng a method :-
+-------------------------------------------------------
+Method Overriding is only possible with inheritance, if there is no inheritance there will not be method overriding so private accees modifer is allowed at overriding.
+
+While overriding a method the access modifier of sub class method must be greater or equal to the access modifer of super class method.
+
+The following statement described the access modifer from greater to less
+
+public > protected > default
+
+(public is greater than protected, protected is greater than default)
+
+-------------------------------------------------------------------------------
+class RBI
+{
+	protected void loan()
+	{
+		System.out.println("Bank should provide loan...");
+	}
+}
+class SBI extends RBI
+{
+	@Override
+	 void loan()
+	{
+		System.out.println("Providing loan @ 9.0 %");
+	}
+}
+
+class RBIDemo 
+{
+	public static void main(String[] args) 
+	{
+	    RBI r1 = new SBI();
+		r1.loan();
+	}
+}
+
+Note :- If super class method does not throw any exception using throws keyword then at the time of overriding the method the sub class method also should not throw the exception.
+
+class MyThread extends Thread
+{
+	@Override
+	public void run() throws InterruptedException
+	{
+		Thread.sleep(1000);
+	}
+}
+
+class  ThreadDemo
+{
+	public static void main(String[] args) 
+	{
+		MyThread m1 = new MyThread();
+			m1.start();
+	}
+}
+---------------------------------------------------------------------------------
+Co-variant in Java :
+--------------------
+In general we can't change the return type of the method while overriding a method.
+
+From JDK 1.6 onwards Java software people has provided a new concept called Co-variant through which we can change the return type of the method.
+
+We can change the return type of the method using co-variant , co-variant describes the return type of the method must be in inheritance relationship.
+--------------------------------------------------------------------------------
+The following program describes we can't change the return type of the method while overriding a method.
+
+class Shape
+{
+	void draw()
+	{
+		System.out.println("Don't know about the shape...");
+	}
+}
+class Rect extends Shape
+{
+	@Override
+	int draw()
+	{
+       System.out.println("Drawing Rectangle....");
+	   return 0;
+	}
+}
+class CoVariant 
+{
+	public static void main(String[] args) 
+	{
+		Shape s1 = new Rect();
+		s1.draw();
+	}
+}
+---------------------------------------------------------------------------------
+The following describes we can change the return type of the method while overriding by implementing Co-variant concept 
+
+class Shape
+{
+	Object draw()
+	{
+		System.out.println("Don't know about the shape...");
+		return null;
+	}
+}
+class Rect extends Shape
+{
+	@Override
+	java.util.Date draw()
+	{
+       System.out.println("Drawing Rectangle....");
+	   return null;
+	}
+}
+class CoVariant 
+{
+	public static void main(String[] args) 
+	{
+		Shape s1 = new Rect();
+		s1.draw();
+	}
+}
+--------------------------------------------------------------------------------
+
+class Test 
+{
+	@Override
+   public String toString()
+	{
+	   return "Naresh Technology";
+	}
+
+	public static void main(String[] args) 
+	{
+		Object t1 = new Test();
+		System.out.println(t1);   //toString() of Object class
+	}
+}
+---------------------------------------------------------------------------------
+final keyword :- (To provide some restriction)
+------------------
+To declare a class as a final :- 
+--------------------------------
+We can't inherit final class. When the class composition is very important and if we don't want the share the features and properties of class then we should declare a class as a final class.
+
+If we declare a class as a final its variables can be modified, only the class behaviour is final.
+
+ final class A
+{
+	private int x=100;
+	public void setData()
+	{
+		x = 120;
+		System.out.println(x);
+	}
+}
+class B extends A  //error
+{   
+}
+public class FinalClassEx
+{
+	public static void main(String[] args)
+	{
+		B b1 = new B();
+		b1.setData();		
+	}
+}
+
+To declare a method as a final :
+-----------------------------------
+If a method is declared as final we can't override the method the in the sub class. We should declare a method as final when we don't want to change the method body in the sub class method implementation.
+class A
+{
+	int a = 10;
+	int b = 20;
+      final void calculate()
+	  {
+		int sum = a+b;
+		System.out.println("Sum is :"+sum);
+	  } 
+}
+class B extends A
+{
+	@Override
+	void calculate() //error
+	{
+		int mul = a*b;
+		System.out.println("Mul is :"+mul);
+	}
+}
+class FinalMethodEx 
+{
+	public static void main(String[] args) 
+	{
+		 A a1 = new B();
+		 a1.calculate();
+	}
+}
+
+
+
+
+To declare a field (variable) as a final :
+------------------------------------------
+We cannot perform re-assignment to a final variable. In variable we write by uppercase letter in java.
+
+class A
+{
+	final int A = 10;
+
+	public void setData()
+	{
+		 A = 10; //error re-assignment is not possible
+		 System.out.println("A value is :"+A);
+	}
+}
+class FinalVarEx 
+{
+	public static void main(String[] args) 
+	{
+		A a1 = new A();
+		a1.setData();
+	}
+}
+--------------------------------------------------------------------------------
+Abstract class and abstract :-
+---------------------------------
+
+A class that does not provide complete implementation (partial implementation) is defined as an abstract class.
+
+An abstract method is a common method which is used to provide easiness to the programmer because the programmer faces complexcity to remember the method name.
+
+An abstract method observation is very simple because every abstract method contains abstract keyword, abstract method does not contain any body and at the end there must be a terminator i.e ; (semicolon)
+
+In java whenever action is common but implementations are different then we should use abstract method, Generally we declare abstract method in the super class and its implementation must be provided in the sub class.
+
+if a class contains atleast one method as an abstract method then we should compulsory declare that class as an abstract class.
+
+Once a class is declared as an abstract class we can't create an object for that class.
+
+All the abstract methods declared in the super class must be overridden in the child class otherwise the child class will become as an abstract class hence object can't be created for the child class as well.
+
+*An abstract class may or may not have an abstract method but an abstract method must have abstract class.
+
+--------------------------------------------------------------------------------
+abstract class Shape
+{
+	abstract void draw();
+}
+class Rectangle extends Shape
+{
+	@Override
+	void draw()
+	{
+	  System.out.println("Drawing Rectangle........");		
+	}	
+}
+
+class Square extends Shape
+{
+	@Override
+	void draw() 
+	{
+		System.out.println("Drawing Square....");		
+	}	
+}
+
+class Circle extends Shape
+{
+	@Override
+	void draw() 
+	{
+		System.out.println("Drawing Circle....");		
+	}	
+}
+
+public class ShapeExample 
+{
+	public static void main(String[] args) 
+	{
+		Shape s ;
+		
+		s= new Rectangle();
+		s.draw();
+		
+		s = new Square();
+		s.draw();
+		
+		s = new Circle();
+		s.draw();
+	}
+}
+--------------------------------------------------------------------------------
+abstract class Car
+{
+   	int speed = 60;
+   	
+   	Car()
+   	{
+   		System.out.println("Constructor......");
+   	}
+   	
+   	void getDetails()
+   	{
+   		System.out.println("It has 4 wheels...");
+   	}
+   	
+   	abstract void run();
+}
+
+
+class Naxon extends Car
+{
+	
+	@Override
+	void run() 
+	{
+	  System.out.println("Running safely...");			
+	}	
+}
+public class IQ 
+{
+	public static void main(String[] args)
+	{
+		Car c = new Naxon();
+		System.out.println("Speed of the car is :"+c.speed);
+		c.getDetails();
+		c.run();
+		
+	}
+
+}
+Note :- If we have constructor in abstrct class then the constructor will be executed by internal super() call.
+---------------------------------------------------------------------------------
+abstract class AA
+{
+	abstract void show();
+	abstract void demo();
+}
+abstract class BB extends AA
+{
+	@Override
+	void show()  //demo();
+	{
+	  System.out.println("Show method implemented in the sub class...");	
+	}
+}
+class CC extends BB
+{
+	@Override
+	void demo() 
+	{
+	  System.out.println("Demo method implemented in the sub class....");			
+	}	
+}
+public class AbstractDemo 
+{
+	public static void main(String[] args) 
+	{
+		CC c1 = new CC();
+		c1.show();
+		c1.demo();
+	}
+
+}
+---------------------------------------------------------------------------------
+abstract class Shape
+{
+	abstract void input();
+	abstract void area();
+	Scanner sc = new Scanner(System.in);
+}
+
+class Rectangle extends Shape
+{
+	int l,b;
+
+	@Override
+	void input() 
+	{
+	  System.out.print("Enter the value of l :");	
+	  l = sc.nextInt();
+	  
+	  System.out.print("Enter the value of b :");	
+	  b = sc.nextInt();
+		
+	}
+
+	@Override
+	void area() 
+	{
+		int area = l*b;
+		System.out.println("The area of rectangle is :"+area);		
+	}
+	
+}
+class Square extends Shape
+{
+    int a;
+	@Override
+	void input()
+	{
+		System.out.print("Enter the value of a :");	
+		  a = sc.nextInt();		
+	}
+
+	@Override
+	void area()
+	{
+		int area = a*a;
+		System.out.println("The area of Square is :"+area);		
+	}	
+}
+
+public class ShapeDemo 
+{
+
+	public static void main(String[] args) 
+	{
+		Shape s1 ;
+		s1 = new Rectangle();
+		s1.input();
+		s1.area();
+		
+		s1 = new Square();
+		s1.input();
+		s1.area();
+	}
+
+}
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+

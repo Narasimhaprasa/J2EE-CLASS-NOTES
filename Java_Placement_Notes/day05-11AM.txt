@@ -1,0 +1,709 @@
+83418537501
+848500
+
+
+
+Class Loader subsystem with JVM Architectute :-
+------------------------------------------------------
+The three main component of JVM 
+
+1) class loader sub system
+
+2) Runtime Data Areas
+
+3) Execution engine
+
+In order to load the required .class file, JVM makes a request to class loader sub system. The class loader sub system follows delegation hierarchy algorithm to load the required .class file from different area.
+
+To load the required .class file we have 3 different kinds of class loader
+
+1) Bootstrap class loader
+
+2) Extension/Platform class loader
+
+3) Application/System class loader
+
+Bootstrap class Loader :-
+----------------------------
+It is responsible to load the required .class file from java API that means all the predfined classes .class file will be loaded by Bootstrap class loader.
+It the super class of Extension class loader as well as It has the highest priority among all the class loader.
+
+Extension/Platform  class  Loader :-
+------------------------------
+It is responsible to load the required .class files from ext (extension) folder. Inside the extension folder we have  jar file(Java level zip file) given by some third party or user defined jar file.
+It is the super class of Application class loader as well as It has more priority than Application class loader.
+
+Application class Loader :-
+------------------------------
+It is responsible to load the required .class file from class path level i.e Environment variable. It has lowest priority as well as It is the sub class of Extension class loader.
+
+
+How Delegation Hierarchy algorithm works :-
+---------------------------------------------------
+Whenever JVM makes a request to class loader sub system to load the required .class file into JVM memory, first of all class loader sub system makes a request to Application class loader , Application class loader will delegate the request to the Extension class loader, Extension class loader will also delegate the request to Bootstrap class loader.
+Bootstrap class loader will load the .class file from lib folder(rt.jar) and then by pass the request to extension class loader, Extension class loader will load the .class file from ext folder(*.jar) and by pass the request to Application class loader, It will load the .class file from environment variable into JVM memory. 
+
+Note :- 
+If all the class loaders are unable to load the .class file into JVM memory then we will get a Runtime exception i.e java.lang.ClassNotFoundException
+
+
+class Test
+{
+   static int x = 100;       
+ }
+
+Linking :-
+------------
+verify :-
+-------
+It ensures the correctness the .class files, If any suspicious activity is there in the .class file then It will stop the execution immediately by throwing an exception i.e java.lang.VerifyError.
+
+There is something called ByteCodeVerifier, responsible to verify the .class file i.e byte code. Due to this verify module JAVA is highly secure language.
+
+Prepare :-
+-----------
+It will allocate the memory for all the static data member, here all the static data member will get the default values so if we have static int x = 100;
+then for x we will get the default value i.e 0.
+
+Resolve :-
+-----------
+All the symbolic references will be converted to direct references.
+
+Initialization :-
+-----------------
+In Initialization, all the static data member will get their actual value as well as if any static block is available in the class then the static block will be exceuted here.
+
+static block :-
+---------------
+It is a very special block in java which will be executed at the time of loading the .class file into JVM memory by class loader subsystem.
+
+The main purpose of static block to initialize the static data member of the class.
+
+static block will be executed only once because class loading is possible only once in java.
+
+If we have multiple static blocks in a class then It will be executed according to order.
+
+class Test
+{
+   Test() 
+	{
+	    System.out.println("defualt constructor...");
+        }
+
+   { 
+	    System.out.println("instance block...");
+   }
+
+   static
+   {
+	    System.out.println("Static block...");
+   }
+}
+class  StaticBlock
+{
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+
+	}
+}
+--------------------------
+class Demo
+{
+	 static int x;
+
+	 static
+	{
+		 x = 100;
+	}
+
+	static 
+	{
+		 x = 200;
+	}
+
+	static
+	{
+        System.out.println("x value is :"+x);
+	}
+}
+class StaticBlockOrder 
+{
+	public static void main(String[] args) 
+	{
+		Demo d = new Demo();
+	}
+}
+
+Note :- We can't execute a java program without main method, Upto jdk 1.6 it was possible to execute a java program without main method be writing the static block. From JDK 1.7 onwards now we can't execute java program without main method.
+
+
+How to load the .class file Dynamically Or Explicitly :
+-------------------------------------------------------
+Java software people has provided a predefined class called Class available in java.lang package.
+
+This class contains a predefined static method forName(), through which we can load the required .class file into JVM memory dynamically.
+
+It throws a checked exception i.e java.lang.ClassNotFoundException
+
+Class.forName("Test");   -> try-catch  OR throws
+
+
+class Foo
+{
+	static 
+	{
+		System.out.println("It is a static block");
+	}
+}
+class DynamicLoading 
+{
+	public static void main(String[] args) throws Exception
+	{
+		 Class.forName("Foo");
+	}
+}
+
+What is the difference between java.lang.ClassNotFoundException and 
+-------------------------------------------------------------------------------
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+
+java.lang.ClassNotFoundException :-
+-----------------------------------------
+It occurs when we try to load the required .class file at runtime by using Class.forName() statement and if the required .class file is not available at runtime then we will get an exception i.e java.lang.ClassNotFoundException
+
+class Foo
+{
+	static 
+	{
+		System.out.println("It is a static block");
+	}
+}
+
+class DynamicLoading 
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+			 Class.forName(args[0]);  //Command line argument
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.err.println("Class is not available ....Plz check again");
+		}
+	}
+}
+
+
+java.lang.NoClassDefFoundError:-
+--------------------------------------
+It occurs when the class was present at the time of compilation but at runtime the required .class file is not available(mannually deleted by user) then we will get an exception i.e java.lang.NoClassDefFoundError.
+
+
+class Hello
+{
+	void welcome()
+	{
+		System.out.println("Hello learner!!!!");
+	}
+}
+class  NoClassDefFoundErrorDemo
+{
+	public static void main(String[] args) 
+	{
+		Hello h = new Hello();
+		h.welcome();
+	}
+}
+
+Note :- delete the Hello.class file after compilation and then execute the program.
+
+What is the drawback of new keyword :-
+---------------------------------------------
+We know 'new' keyword is used to create the objcet but It demands the class name at the begning or at the time of compilation.
+
+new keyword is not suitable to create the object for the classes which are coming at runtime.
+
+In order to create the Object for the classes which are coming at runtime either from database or files, we should use newInstance() method available in class called Class.
+
+class Student
+{
+}
+class DynamicObjectCreation 
+{
+	public static void main(String[] x) throws Exception
+	{
+		Object obj =  Class.forName(x[0]).newInstance();
+		System.out.println("Object created for :"+obj.getClass().getName());
+	}
+}
+-----------------------------------------------------------------------------
+class Student
+{
+	void message()  //instance method
+	{
+		System.out.println("Welcome students...");
+	}
+}
+class DynamicObjectCreation 
+{
+	public static void main(String[] x) throws Exception
+	{
+		Object obj =  Class.forName(x[0]).newInstance();  //Student		
+		Student st =(Student) obj;
+		st.message();
+	}
+}
+-----------------------------------------------------------------------------------
+Program on class Class object, to get the details of the class
+------------------------------------------------------------------------------------
+import java.lang.reflect.Method;
+class ClassDescription 
+{
+	public static void main(String[] args) throws Exception
+	{
+		int count = 0;
+		 Class cls = Class.forName("java.lang.Integer");
+		 System.out.println("Name of the class is :"+cls.getName());
+		 System.out.println("Name of the package :"+ cls.getPackage());
+
+        Method [] methods = cls.getDeclaredMethods();
+
+		for(Method x : methods)
+		{
+			count++;
+			System.out.println( x.getName());
+		}
+        System.out.println("Total methods are :"+count);
+	}
+}
+---------------------------------------------------------------------------------------
+2) Runtime data areas :-
+----------------------------
+Method area :-
+---------------
+In this area all class level information is available. Actually the .class file is dumpped here hence we have all kinds of information related to class is available like name of the class, name of the immediate super class, method and variable name, static variable and so on.
+
+There is only one method area per JVM.
+
+Heap memory :-
+------------------
+It stores information regarding object and instance variables. All the objects are created as a part of HEAP memory so automatically all the instance variables are also the part of HEAP memory.
+
+The is only one HEAP area per JVM.
+
+Stack area :-
+--------------
+For every thread, JVM creates a seperate runtime stack. Each stack is created as a part of stack memory. All the local variables are also the part of stack memory.
+Each entry in the stack is called Stack Frame, Each stack frame containd three parts
+1) Local variable Array
+2) Frame Data
+3) Operand Stack
+
+Garbage collector :-
+----------------------
+It is an automatic memory management in java. JVM internally contains a component called Garbage collector, It is responsible to delete the unused objects or the objects which are not containing any references in the memory.
+
+Heap and stack diagram
+      OR
+Grabage collector program 
+     OR 
+Output of any complex program
+
+class Customer
+{
+	private String name;
+	private int id;
+
+	public Customer(String name , int id)
+	{
+		this.name=name;
+		this.id=id;
+	}
+	public void setId(int id)  //setter   
+	{
+		this.id=id;
+	}
+	public int getId() //getter
+	{
+		return id;
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int val=100;
+		Customer e = new Customer("Ravi",2);
+		m1(e);	
+		//gc  //3000x object is eligible for garbage collector
+		System.out.println(e.getId());
+	}
+	public static void m1(Customer e)
+	{
+		e.setId(5);
+		e=new Customer("Rahul",7);
+		e.setId(9);
+		System.out.println(e.getId());
+	}
+}
+
+---------------------------------------------------------------------------------------------
+public class Employee
+{
+	int id=100;
+	public static void main(String[] args) 
+	{
+		int val=200;
+		Employee e1 = new Employee();
+		e1.id=val;
+		update(e1);
+		
+		System.out.println(e1.id);
+        Employee e2 = new Employee(); 
+		e2.id=500;
+
+		switchEmployees(e2,e1);
+		
+		    //gc
+			System.out.println(e1.id);
+		    System.out.println(e2.id);
+	    }
+     
+	 public static void update(Employee e)
+	 {
+        e.id=900;
+		e=new Employee();
+		e.id=400;
+	 }
+
+	 public static void switchEmployees(Employee e1,Employee e2)
+	  {
+		 int temp=e1.id;
+		 e1.id=e2.id;
+		 e2= new Employee();
+		 e2.id=temp;
+	  }
+   }
+
+------------------------------------------------------------------------------------------
+class Test1
+{
+	public static void main(String[] args) 
+	{
+		public int x ;
+		System.out.println(" x value is :"+x);
+	}
+}
+
+//A local variable must be initialized as well as we can't use access modifier like public protected and private
+
+-----------------------------------------------------------------------------------------------
+
+class Demo 
+{
+	int x = 100;
+	public static void main(String[] args) 
+	{
+		System.out.println("x value is :"+x); //error
+	}
+}
+---------------------------------------------------------------------------------------
+
+class Demo 
+{
+	static int x = 100;
+	public static void main(String[] args) 
+	{
+		System.out.println("x value is :"+x); 
+	}
+}
+---------------------------------------------------------------------------
+class Demo 
+{
+	int x = 100;
+	public static void main(String[] args) 
+	{
+		Demo d1 = new Demo();
+		System.out.println("x value is :"+d1.x); 
+	}
+}
+------------------------------------------------------------------------------
+In order to access instance variable or instance nethod from a static method, we need to create an object first
+
+class Foo 
+{
+	int x = 100;//instance variable
+	public static void main(String[] args) 
+	{
+	     Foo f1 = new Foo();
+		 f1.m1();
+		 System.out.println(f1.x);
+	}
+
+	void m1()//instance method
+	{
+		System.out.println("It is m1 method"); 
+	}
+}
+---------------------------------------------------------------------------------------
+If a static method is available in the same class we can directly call the static method but if the static method is avaialble in another class then we need to call the static method with the help of class name 
+
+class Foo 
+{
+	public static void main(String [] args )
+	{
+           m1();
+		   Sample.m2();
+	}
+
+	 static void m1()
+	{
+		 System.out.println("It is a static method...");
+	}
+}
+
+class Sample 
+{
+	static void m2()
+	{
+		System.out.println("static method inside m2");
+	}
+}
+--------------------------------------------------------------------------------------
+class Test
+{
+	int x; //instance variable
+
+	void input(int x)  //instance nethod
+	{
+		this.x = x;
+	}
+
+	static void access()
+	{
+		System.out.println("x value is :"+x);
+	}
+}
+class StaticAccess 
+{
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+		t1.input(15);
+
+		Test.access();
+	}
+}
+------------------------------------------------------------------------------------
+class Test
+{
+	int x; //instance variable
+
+	void input(int x)  //instance nethod
+	{
+		this.x = x;
+		this.access();
+	}
+
+	 void access()
+	{
+		System.out.println("x value is :"+x);
+	}
+}
+class StaticAccess 
+{
+	public static void main(String[] args) 
+	{
+		new Test().input(15);  //nameless Object OR Anonymous object
+		
+	}
+}
+--------------------------------------------------------------------------------------
+class Test
+{
+	int x; //instance variable
+
+	void input(int x)  //instance nethod
+	{
+		this.x = x;
+	}
+
+	 void access()
+	{
+		System.out.println("x value is :"+x);
+	}
+}
+class StaticAccess 
+{
+	public static void main(String[] args) 
+	{
+	    Test  t1 = new Test();
+		   t1.input(15);
+		   this.access();		
+	}
+}
+----------------------------------------------------------------------------------------
+PC Register :-
+--------------
+In order to hold the current executing instruction of a thread we use PC register (Program Counter Register). For a single JVM we can have multiple PC Registers.
+
+
+Native method stack :-
+--------------------------
+For every thread in java a seperate native stack is created. It stores the native method information.
+
+Interpreter :- 
+---------------
+JVM stands for Java Virtual Machine. It is a software in the form of Interpreter written in 'C' language. 
+
+The main purpose of JVM to load and execute the .class file.JVM has a component called class loader subsystem responsible to load the required .class file as well as It allocates the necessary memory needed by the java program.
+
+JVM executes our program line by line. It is slow in nature so java software people has provided a special compiler i.e JIT compiler to boost up the execution.
+
+
+JIT compiler :-
+-----------------
+It stands for just in time compiler. It is the part of JVM which increases the speed of execution of a java program.
+
+It holds the frequently used instruction and make it available at the time of executing java program so the execution will become faster.
+
+Working with class and Object :-
+-------------------------------------
+class Student
+{
+  private int sno;
+  private String name;
+
+  public void input()
+	{
+	   sno =111;
+	   name = "Ravi";
+	}
+
+  public void show()
+  {
+    System.out.println(sno);
+    System.out.println(name);
+  }
+  public static void main(String [] x)
+  {
+    Student s1 = new Student();
+            s1.show();
+			s1.input();
+			s1.show();
+  }
+}
+
+-------------------------------------------------------------------------------------
+class Student
+{
+  private int sno;
+  private String name;  
+
+  Student()
+	{	 
+	  System.out.println(sno);
+	  System.out.println(name);
+	}	
+ 
+  public static void main(String [] x)
+  {
+    Student s1 = new Student(); 			
+  }
+}
+
+Note :- In this program from the first line of constructor we have a super call, which is calling the default constructor of Object class.
+---------------------------------------------------------------------------------------
+
+What happens internally when we create an Object ?
+OR
+When to declare instance variable and when to declare static variable?
+
+
+//This following program describes whenever we create an object a seperate copy of instance variables will be created with different memory location.
+
+class Test 
+{
+	int x = 15;
+
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+		Test t2 = new Test();
+
+		++t1.x;        --t2.x;
+
+		System.out.println(t1.x);
+		System.out.println(t2.x);
+	}
+}
+----------------------------------------------------------------------------------------
+//static variables create the sible copy sharable by all the objects, so if there is a change by any object then it will reflect to all the objects
+class Test 
+{
+	static int x = 15;
+
+	public static void main(String[] args) 
+	{
+		Test t1 = new Test();
+		Test t2 = new Test();
+
+		++t1.x;    ++t2.x;  
+
+		System.out.println(t1.x);
+		System.out.println(t2.x);
+	}
+}
+----------------------------------------------------------------------------------------class Student
+{
+   int rollNumber;
+   String name;
+   String address;
+   static String collegeName = "Osmania";
+}
+
+We shoud declare instance variable if the value is different with each object on the other hand we should a variable as a ststic variable if the value is common for all the objcets like collegeName is a cooman value for all the Students.
+The following explains about this concept.
+
+class Student
+	{
+   int roll;
+   String name;
+   static String college ="JNTU"; //college name will be same for all students
+   
+   Student(int r,String n)
+	{
+   roll = r;
+   name = n;
+    }
+
+ void display ()
+	 {
+	 System.out.println(roll+" "+name+" "+college);
+	 }
+
+ public static void main(String args[])
+ {
+ Student s1 = new Student (101,"Rahul");
+ Student s2 = new Student (102,"Aswin"); 
+ Student s3 = new Student (103,"Virat"); 
+ s1.display();
+ s2.display();
+ s3.display();
+ }
+}
+----------------------------------------------------------------------------------------
+"Constructor is used to construct the Object"  -> Name is CONSTRUCTOR
+
+class Test
+{
+   int x;
+
+   main()
+   {
+       x = 100;
+       int y = 200;   // x is an instance variable, y is local variable
+   }
